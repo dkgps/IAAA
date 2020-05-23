@@ -6,80 +6,47 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width", initial-scale="1">
 <link rel="stylesheet" href="css/bootstrap.css">
+<link rel="stylesheet" href="css/nav.css">
 <title>login</title>
 </head>
-<body>
+<body id="body" style="background-image: url('assets/img/bg-login.jpg'); height: cover;">
+
 <%
 	String userID = null;
-	if(session.getAttribute(userID) != null){
-		userID = (String)session.getAttribute(userID);
+	if(session.getAttribute("userID")!=null){
+		userID = (String) session.getAttribute("userID");
 	}
 
 %>
-	<nav class="navbar navbar-default">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle collapsed"
-				data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
-				aria-expanded="false">
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
-			<a class="navbar-brand" href="main.jsp">인하대 아마추어 천문동아리</a>
-		</div>
-		<div class="collapse navbar-collapse" id="#bs-example-navbar-collapse-1">
-
-<%
-	if(userID==null){
-		
-%>
-			<ul class="nav navbar-nav">
-				<li><a href="login.jsp">로그인</a></li>
-				<li><a href="join.jsp">회원가입</a>
-			</ul>
-<%
-	}else{
-		
-%>		
-			<ul class="nav navbar-nav">
-				<li><a href="logoutAction.jsp">로그아웃</a></li>
-			</ul>
-<%
-	}
-%>
-			<ul class="nav navbar-nav navbar-right">
-				<li class="dropdown">
-					<a href="#" class="dropdown-toggle"
-						data-toggle="dropdown" role="button" aria-haspopup="true"
-						aria-expanded="false">접속하기<span class="caret"></span></a>
-						<ul class="dropdown-menu">
-							<li class="active"><a href="login.jsp">로그인</a></li>
-							<li><a href="join.jsp">회원가입</a></li>
-						</ul>
-				</li>
-			</ul>
-			
-		</div>
-	</nav>
-	
-	<div class="container">
-		<div class="col-lg-4"></div>
-		<div class="col-lg-4">
-			<div class="jumbotron" style="padding-top: 20px;">
-				<form method="post" action="loginAction.jsp">
-					<h3 style="text-align: center">로그인 화면</h3>
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+            <div class="container">
+                <a class="navbar-brand js-scroll-trigger" href="index.jsp"><img src="assets/img/navbar-logo.png" alt="" /></a><button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">Menu<i class="fas fa-bars ml-1"></i></button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav text-uppercase ml-auto">
+                    	<li class="nav-item"><a class="nav-link js-scroll-trigger" href="notice.jsp">Notice</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="join.jsp">Join</a></li>    
+                    </ul>
+                </div>
+            </div>
+        </nav>
+	<section class="container mt-5 mb-5" style="max-width: 560px;">
+			<div style="padding-top: 20px; margin-top: 50px; height:750px;">
+				<form class="jumbotron" method="post" action="loginAction.jsp" style="height: 360px;">
+					<h3 style="text-align: center">로그인</h3>
+					<br>
 					<div class="form-group">
-						<input type="text" class="form-control" placeholder="아이디" name="userID" maxlength="20">
+						<input type="text" class="form-control" placeholder="아이디" name="userID" maxlength="20" style="margin-top:0.7rem;">
 					</div>
 					<div class="form-group">
 						<input type="password" class="form-control" placeholder="비밀번호" name="userPassword" maxlength="20">
 					</div>
-					<input type="submit" class="btn btn-primary form-control" value="로그인">
+					<input type="submit" class="btn btn-success form-control" style="height:5rem; font-size:2rem; margin-top:2.5rem;" value="로그인">
 				</form>
 			</div>
-		</div>
+		
 		<div class="col-lg-4"></div>
-	</div>
+	</section>
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="js/bootstrap.js"></script>
 </body>
