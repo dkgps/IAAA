@@ -13,7 +13,11 @@
 <link rel="stylesheet" href="css/nav.css">
 <style>
 li{
-margin-left:3rem;
+margin-left:1.5rem;
+}
+
+.nav-item:active{
+ color: #fed136;
 }
 
 </style>
@@ -38,7 +42,8 @@ margin-left:3rem;
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">Menu<i class="fas fa-bars ml-1"></i></button>
                 <div class="collapse navbar-collapse" id="navbarResponsive" style="float:right;">
                     <ul class="navbar-nav text-uppercase ml-auto">
-                    	<li class="nav-item"><a class="nav-link js-scroll-trigger" href="notice.jsp">Notice</a></li>
+                    	<li class="nav-item active"><a class="nav-link js-scroll-trigger" href="notice.jsp" style="color: #fed136;">Notice</a></li>
+
 <%
 	if(userID==null){
 %>
@@ -46,7 +51,13 @@ margin-left:3rem;
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="join.jsp">Join</a></li>
 <%
 	}else{
-%>                      
+%>                     
+ 						<li class="nav-item"><a class="nav-link js-scroll-trigger" href="photo1.jsp">PHOTO 1</a></li>
+                    	<li class="nav-item"><a class="nav-link js-scroll-trigger" href="photo2.jsp">PHOTO 2</a></li>
+                    	<li class="nav-item"><a class="nav-link js-scroll-trigger" href="observation.jsp">Observation</a></li>
+                    	<li class="nav-item"><a class="nav-link js-scroll-trigger" href="scientificResearch.jsp">Research</a></li>
+                    	<li class="nav-item"><a class="nav-link js-scroll-trigger" href="freeBoard.jsp">FreeBoard</a></li>
+                    	<li class="nav-item"><a class="nav-link js-scroll-trigger" href="aboutMe.jsp">About Me</a></li>	
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="logoutAction.jsp">Logout</a></li>
 <%
 	}

@@ -33,10 +33,27 @@ margin-left:3rem;
 	
 		<section class="container mt-5 mb-5" style="max-width: 560px;">
 			<div  style="padding-top: 20px; margin-top: 50px; height:750px;">
-				<form class="jumbotron" method="post" action="joinAction.jsp">
-					<h3 style="text-align: center; margin-bottom:2rem;">PHOTO 1 페이지!</h3>
+				<form class="jumbotron" method="multipart/form-data" action="UploadAction.jsp">
+					<h3 style="text-align: center; margin-bottom:2rem;">Photos of STAR</h3>
 					<br>
-
+					<table>
+						<tbody>
+							<tr>
+								<td><input type="text" class="form-control" placeholder="글 제목" name="photo1Title" maxlength="50"></td>
+							</tr>
+							<tr>
+								<td><textarea class="form-control" placeholder="글 내용" name="noticeContent" maxlength="2048" style="height: 350px;"></textarea></td>
+							</tr>
+							<tr>
+								<td>파일선택</td>
+								<td><input type="file" name="photo1"></td>
+								
+							</tr>
+						
+						</tbody>
+						
+	
+					</table>
 				</form>
 			</div>
 		</section>

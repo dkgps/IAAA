@@ -188,12 +188,15 @@
                     </div>
                     <div class="col-lg-4 col-sm-6 mb-4">
                         <div class="portfolio-item">
+<%	if(userID==null){ %>
                             <a class="portfolio-link" data-toggle="modal" href="#portfolioModal3"
                                 ><div class="portfolio-hover">
                                     <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
                                 </div>
-                                <img class="img-fluid" src="assets/img/star1.jpg" alt=""
-                            /></a>
+<%	}else{ %>
+							<a class="portfolio-link"  href="observation.jsp">
+<%	} %>
+                                <img class="img-fluid" src="assets/img/star1.jpg" alt=""/></a>
                             <div class="portfolio-caption">
                                 <div class="portfolio-caption-heading">Observation</div>
                                 <div class="portfolio-caption-subheading text-muted">Describe your observations!</div>
@@ -202,12 +205,15 @@
                     </div>
                     <div class="col-lg-4 col-sm-6 mb-4 mb-lg-0">
                         <div class="portfolio-item">
+<%	if(userID==null){ %>
                             <a class="portfolio-link" data-toggle="modal" href="#portfolioModal4"
                                 ><div class="portfolio-hover">
                                     <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
                                 </div>
-                                <img class="img-fluid" src="assets/img/research.jpg" alt=""
-                            /></a>
+<%	}else{ %>
+							<a class="portfolio-link"  href="scientificResearch.jsp">
+<%	} %>
+                                <img class="img-fluid" src="assets/img/research.jpg" alt=""/></a>
                             <div class="portfolio-caption">
                                 <div class="portfolio-caption-heading">Scientific Research</div>
                                 <div class="portfolio-caption-subheading text-muted">Deep Sky, Academic Research..</div>
@@ -216,12 +222,15 @@
                     </div>
                     <div class="col-lg-4 col-sm-6 mb-4 mb-sm-0">
                         <div class="portfolio-item">
+<%	if(userID==null){ %>
                             <a class="portfolio-link" data-toggle="modal" href="#portfolioModal5"
                                 ><div class="portfolio-hover">
                                     <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
                                 </div>
-                                <img class="img-fluid" src="assets/img/free.jpg" alt=""
-                            /></a>
+<%	}else{ %>
+							<a class="portfolio-link"  href="freeBoard.jsp">
+<%	} %>
+                                <img class="img-fluid" src="assets/img/free.jpg" alt=""/></a>
                             <div class="portfolio-caption">
                                 <div class="portfolio-caption-heading">Free board</div>
                                 <div class="portfolio-caption-subheading text-muted">Free board</div>
@@ -230,10 +239,14 @@
                     </div>
                     <div class="col-lg-4 col-sm-6">
                         <div class="portfolio-item">
+<%	if(userID==null){ %>
                             <a class="portfolio-link" data-toggle="modal" href="#portfolioModal6"
                                 ><div class="portfolio-hover">
                                     <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
                                 </div>
+<%	}else{ %>
+							<a class="portfolio-link"  href="aboutMe.jsp">
+<%	} %>
                                 <img class="img-fluid" src="assets/img/about.jpg" alt=""
                             /></a>
                             <div class="portfolio-caption">
@@ -259,21 +272,21 @@
                     <div class="row align-items-stretch mb-5">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <input class="form-control" id="contactName" type="text" placeholder="Your Name *" required="required" data-validation-required-message="Please enter your name." />
+                                <input class="form-control" name="contactName" type="text" placeholder="Your Name *" required="required" data-validation-required-message="Please enter your name." />
                                 <p class="help-block text-danger"></p>
                             </div>
                             <div class="form-group">
-                                <input class="form-control" id="contactEmail" type="email" placeholder="Your Email *" required="required" data-validation-required-message="Please enter your email address." />
+                                <input class="form-control" name="contactEmail" type="email" placeholder="Your Email *" required="required" data-validation-required-message="Please enter your email address." />
                                 <p class="help-block text-danger"></p>
                             </div>
                             <div class="form-group mb-md-0">
-                                <input class="form-control" id="contactPhone" type="text" placeholder="Your Phone *" required="required" data-validation-required-message="Please enter your phone number." />
+                                <input class="form-control" name="contactPhone" type="text" placeholder="Your Phone *" required="required" data-validation-required-message="Please enter your phone number." />
                                 <p class="help-block text-danger"></p>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group form-group-textarea mb-md-0">
-                                <textarea class="form-control" id="contactMessage" placeholder="Your Message *" required="required" data-validation-required-message="Please enter a message."></textarea>
+                                <textarea class="form-control" name="contactMessage" placeholder="Your Message *" required="required" data-validation-required-message="Please enter a message."></textarea>
                                 <p class="help-block text-danger"></p>
                             </div>
                         </div>

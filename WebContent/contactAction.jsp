@@ -55,8 +55,8 @@
 		return;
 	}
 	
-	String host = "http://localhost:8080/LecEvaluation/";
-	String from = contactEmail;
+	String host = "http://localhost:8080/WebPractice/";
+	String from = "tlsdkgps@gmail.com";
 	String to = "tlsdkgps@gmail.com";
 	String subject = "IAAA 사이트에서 접수된 CONTACT 메일입니다.";
 	String content ="이름: " + contactName +
@@ -64,6 +64,7 @@
 					"<br>내용: " + contactMessage;
 		
 	Properties p = new Properties();
+
 	p.put("mail.smtp.user", from);
 	p.put("mail.smtp.host", "smtp.googlemail.com");
 	p.put("mail.smtp.port", "465");
