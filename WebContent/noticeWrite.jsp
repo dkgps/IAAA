@@ -24,6 +24,12 @@
 		script.println("alert('로그인을 해주세요')");
 		script.println("location.href='login.jsp'");
 		script.println("</script>");
+	}else if(!userID.equals("admin")){
+		PrintWriter script = response.getWriter();
+		script.println("<script>");
+		script.println("alert('권한이 없습니다.')");
+		script.println("location.href='notice.jsp'");
+		script.println("</script>");
 	}
 
 %>
@@ -45,7 +51,7 @@
 		<div class="jumbotron" style="padding-top: 20px; margin-top: 50px; height:600px;">
 			<div class="container">
 				<div class="row" style="padding-top:30px;">
-					<form method="post" action="writeAction.jsp">
+					<form method="post" action="noticeWriteAction.jsp">
 						<table class="table table-striped" style="text-align: center; border: 1px solid #ddd">
 							<thead>
 								<tr>

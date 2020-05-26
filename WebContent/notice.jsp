@@ -57,14 +57,17 @@ margin-left:3rem;
     </nav>
 
 		<section class="container mt-5 mb-5" style="max-width: 800px;">
-			<div class="jumbotron" style="padding-top: 20px; margin-top: 50px; height:600px;">
+			<div class="jumbotron" style="padding-top: 20px; margin-top: 50px; height:650px;">
+				<h3 style="text-align: center">공지사항</h3>
 				<div class="container">
 					<div class="row">
+						
+						<br>
 						<table class="table table-striped" style="text-align: center; border: 1px solid #ddd">
 							<thead>
 								<tr>
 									<th style="background-color: #eee; text-align:center;">번호</th>
-									<th style="background-color: #eee; text-align:center;">제목</th>
+									<th style="background-color: #eee; text-align:center; width:65%;">제목</th>
 									<th style="background-color: #eee; text-align:center;">작성자</th>
 									<th style="background-color: #eee; text-align:center;">작성일</th>
 								</tr>	
@@ -79,9 +82,9 @@ margin-left:3rem;
 							%>
 								<tr>
 									<td><%= list.get(i).getNoticeID() %></td>
-									<td><a href="view.jsp?noticeID=<%=list.get(i).getNoticeID()%>"><%=list.get(i).getNoticeTitle() %></a></td>
+									<td><a href="noticeView.jsp?noticeID=<%=list.get(i).getNoticeID()%>"><%=list.get(i).getNoticeTitle() %></a></td>
 									<td><%= list.get(i).getUserID() %></td>
-									<td><%= list.get(i).getNoticeDate().substring(0,11)+list.get(i).getNoticeDate().substring(11,13)+"시"+ list.get(i).getNoticeDate().substring(14,16)+"분"%></td>
+									<td style="font-size: 80%"><%= list.get(i).getNoticeDate().substring(0,11)+list.get(i).getNoticeDate().substring(11,13)+"시"+ list.get(i).getNoticeDate().substring(14,16)+"분"%></td>
 								</tr>
 								
 							<%
@@ -101,7 +104,7 @@ margin-left:3rem;
 					<%
 						}
 					%>
-					<a href="write.jsp" class="btn btn-primary pull-right">글쓰기</a>
+					<a href="noticeWrite.jsp" class="btn btn-primary pull-right">글쓰기</a>
 				</div>
 			</div>
 		</div>

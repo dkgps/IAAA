@@ -13,6 +13,13 @@
 <meta name="author" content="" />
 <title>I.A.A.A</title>
 <style type="text/css">
+	td {
+		color:gray;
+	}
+	td a{
+		color: #000;
+		text-decoration:none;
+	}
 	.td-title{
 		width:65%;
 	}
@@ -95,16 +102,9 @@
         	<div class="container">
         		<div class="text-center">
         			<h2 class="section-heading text-uppercase">Notice</h2>
-        			<h3 class="section-subheading text-muted">별지기의 공지사항입니다.</h3>
+        			<h3 class="section-subheading text-muted">notice from IAAA</h3>
         			<br>
         			<table class="table table-striped" style="text-align:center; border : 1px solid #ddd">
-        				<!-- <thead>
-        					<tr>
-        						<th style="background-color:#eee; text-align: center;">제목</th>
-        						<th style="background-color:#eee; text-align: center;">작성자</th>
-        						<th style="background-color:#eee; text-align: center;">작성일</th>
-        					</tr>
-        				</thead> -->
         				<tbody>
         					<%
         						NoticeDAO noticeDAO = new NoticeDAO();
@@ -114,9 +114,9 @@
         							for(int i=0; i<list.size(); i++){
         					%>
         					<tr>
-        						<td class=td-title><a href="view.jsp?noticeID=<%= list.get(i).getNoticeID()%>"><%= list.get(i).getNoticeTitle()%></a></td>
+        						<td class=td-title><a href="noticeView.jsp?noticeID=<%= list.get(i).getNoticeID()%>"><%= list.get(i).getNoticeTitle()%></a></td>
         						<td><%= list.get(i).getUserID() %></td>
-        						<td><%= list.get(i).getNoticeDate().substring(0,11)+list.get(i).getNoticeDate().substring(11,13)+"시"+ list.get(i).getNoticeDate().substring(14,16)+"분"%></td>
+        						<td><%= list.get(i).getNoticeDate().substring(0,11)+list.get(i).getNoticeDate().substring(11,13)+":"+ list.get(i).getNoticeDate().substring(14,16)%></td>
         					</tr>
         					<%
         							}
@@ -124,9 +124,9 @@
         							for(int i=0; i<7; i++){
         					%>
         					<tr>
-        						<td class=td-title><a href="view.jsp?noticeID=<%= list.get(i).getNoticeID()%>"><%= list.get(i).getNoticeTitle()%></a></td>
+        						<td class=td-title style="color:black;"><a href="noticeView.jsp?noticeID=<%= list.get(i).getNoticeID()%>"><%= list.get(i).getNoticeTitle()%></a></td>
         						<td><%= list.get(i).getUserID() %></td>
-        						<td><%= list.get(i).getNoticeDate().substring(0,11)+list.get(i).getNoticeDate().substring(11,13)+"시"+ list.get(i).getNoticeDate().substring(14,16)+"분"%></td>
+        						<td><%= list.get(i).getNoticeDate().substring(0,11)+list.get(i).getNoticeDate().substring(11,13)+":"+ list.get(i).getNoticeDate().substring(14,16)%></td>
         					</tr>
         					<%
         							}
@@ -255,25 +255,25 @@
                     <h2 class="section-heading text-uppercase">Contact Us</h2>
                     <h3 class="section-subheading text-muted">아래의 사항을 기입해주세요</h3>
                 </div>
-                <form id="contactForm" name="sentMessage" novalidate="novalidate">
+                <form id="contactForm" name="sentMessage"  method="post" action="contactAction.jsp">
                     <div class="row align-items-stretch mb-5">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <input class="form-control" id="name" type="text" placeholder="Your Name *" required="required" data-validation-required-message="Please enter your name." />
+                                <input class="form-control" id="contactName" type="text" placeholder="Your Name *" required="required" data-validation-required-message="Please enter your name." />
                                 <p class="help-block text-danger"></p>
                             </div>
                             <div class="form-group">
-                                <input class="form-control" id="email" type="email" placeholder="Your Email *" required="required" data-validation-required-message="Please enter your email address." />
+                                <input class="form-control" id="contactEmail" type="email" placeholder="Your Email *" required="required" data-validation-required-message="Please enter your email address." />
                                 <p class="help-block text-danger"></p>
                             </div>
                             <div class="form-group mb-md-0">
-                                <input class="form-control" id="phone" type="tel" placeholder="Your Phone *" required="required" data-validation-required-message="Please enter your phone number." />
+                                <input class="form-control" id="contactPhone" type="text" placeholder="Your Phone *" required="required" data-validation-required-message="Please enter your phone number." />
                                 <p class="help-block text-danger"></p>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group form-group-textarea mb-md-0">
-                                <textarea class="form-control" id="message" placeholder="Your Message *" required="required" data-validation-required-message="Please enter a message."></textarea>
+                                <textarea class="form-control" id="contactMessage" placeholder="Your Message *" required="required" data-validation-required-message="Please enter a message."></textarea>
                                 <p class="help-block text-danger"></p>
                             </div>
                         </div>
