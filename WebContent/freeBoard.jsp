@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import = "freeboard.FreeBoard" %>
-<%@ page import = "notice.NoticeDAO" %>
+<%@ page import = "freeboard.FreeBoardDAO" %>
 <%@ page import = "java.util.ArrayList" %>
 <%@ page import = "java.io.PrintWriter" %>
 <!DOCTYPE html>
@@ -76,22 +76,41 @@ margin-left:1.5rem;
 									<th style="background-color: #eee; text-align:center; width:65%;">제목</th>
 									<th style="background-color: #eee; text-align:center;">작성자</th>
 									<th style="background-color: #eee; text-align:center;">작성일</th>
-									<th style="background-color: #eee; text-align:center;">조회수</th>
+
 								</tr>	
 							</thead>
 							<tbody>
+							<%
+								FreeBoardDAO freeBoardDAO = new FreeBoardDAO();
+								ArrayList<FreeBoard> list = freeBoardDAO.getList(pageNumber);
+								 
+								for(int i=0; i<list.size(); i++){
+							
+							%>
 								<tr>
-									<td>1</td>
-									<td>안녕하세요</td>
-									<td>홍길동</td>
-									<td>2020-05-26</td>
-									<td>15</td>
+									<td><%= list.get(i).getFreeBoardID() %></td>
+									<td><a href="freeBoardView.jsp?freeBoardID=<%=list.get(i).getFreeBoardID()%>"><%=list.get(i).getFreeBoardTitle() %></a></td>
+									<td><%= list.get(i).getUserID() %></td>
+									<td style="font-size: 80%"><%= list.get(i).getFreeBoardDate().substring(0,11)+list.get(i).getFreeBoardDate().substring(11,13)+"시"+ list.get(i).getFreeBoardDate().substring(14,16)+"분"%></td>
 								</tr>
 								
-							
+							<%
+								}
+							%>
 							</tbody>
 					</table>
-					
+					<%
+						if(pageNumber !=1){
+					%>
+						<a href="freeBoard.jsp?pageNumber=<%=pageNumber -1 %>" class="btn btn-success btn-arraw-left">이전</a>
+					<%
+						} 
+						if(freeBoardDAO.nextPage(pageNumber+1)){
+					%>	
+						<a href="freeBoard.jsp?pageNumber=<%=pageNumber +1 %>" class="btn btn-success btn-arraw-right">다음</a>
+					<%
+						}
+					%>
 					<a href="freeBoardWrite.jsp" class="btn btn-primary pull-right">글쓰기</a>
 				</div>
 			</div>

@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="css/bootstrap.css">
 <link rel="stylesheet" href="css/nav.css">
 
-<title>join</title>
+<title>자유게시판 글 작성</title>
 </head>
 <body>
 <%
@@ -33,9 +33,8 @@
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">Menu<i class="fas fa-bars ml-1"></i></button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav text-uppercase ml-auto">
+                    	<li class="nav-item"><a class="nav-link js-scroll-trigger" href="notice.jsp">Notice</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="logout.jsp">Logout</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#portfolio">Portfolio</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact">Contact</a></li>
                     </ul>
                 </div>
             </div>
@@ -45,19 +44,19 @@
 		<div class="jumbotron" style="padding-top: 20px; margin-top: 50px; height:600px;">
 			<div class="container">
 				<div class="row" style="padding-top:30px;">
-					<form method="post" action="noticeWriteAction.jsp">
+					<form method="post" action="freeBoardWriteAction.jsp">
 						<table class="table table-striped" style="text-align: center; border: 1px solid #ddd">
 							<thead>
 								<tr>
-									<th colspan="2" style="background-color: #eee; text-align:center;">게시판 글쓰기 양식</th>
+									<th colspan="2" style="background-color: #eee; text-align:center;">자유 게시판 글쓰기</th>
 								</tr>	
 							</thead>
 							<tbody>
 								<tr>
-									<td><input type="text" class="form-control" placeholder="글 제목" name="noticeTitle" maxlength="50"></td>
+									<td><input type="text" class="form-control" placeholder="글 제목" name="freeBoardTitle" maxlength="50"></td>
 								</tr>
 								<tr>
-									<td><textarea class="form-control" placeholder="글 내용" name="noticeContent" maxlength="2048" style="height: 350px;"></textarea></td>
+									<td><textarea class="form-control" placeholder="글 내용" name="freeBoardContent" maxlength="2048" style="height: 350px;"></textarea></td>
 								</tr>
 							</tbody>	
 						</table>
