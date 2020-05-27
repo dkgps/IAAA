@@ -139,6 +139,34 @@ public class FreeBoardDAO {
 		return null;		
 	}
 	
+	public int freeBoardUpdate(int freeBoardID, String freeBoardTitle, String freeBoardContent) {
+		String SQL = "update freeboard set freeBoardTitle= ?, freeBoardContent=? where freeBoardID=?";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setString(1, freeBoardTitle);
+			pstmt.setString(2, freeBoardContent);
+			pstmt.setInt(3, freeBoardID); 
+			return pstmt.executeUpdate(); 
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return -1; 
+	}
+	
+	public int freeBoardDelete(int freeBoardID) {
+		String SQL = "delete from freeboard where freeBoardID=?";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setInt(1, freeBoardID); 
+			return pstmt.executeUpdate(); 
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return -1; 
+	}
+	
 	public int replyNext() {
 		String SQL = "SELECT replyID from boardreply order by replyID desc";
 		try {

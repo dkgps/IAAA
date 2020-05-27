@@ -12,7 +12,7 @@
 <meta name="viewport" content="width=device-width, initial-scale='1'">
 <link rel="stylesheet" href="css/bootstrap.css">
 <link rel="stylesheet" href="css/nav.css">
-<title>login</title>
+<title>자유게시판 글</title>
 </head>
 <body>
 	<%
@@ -75,27 +75,30 @@
 							<table class="table table-striped" style="text-align: center;">
 								<thead>
 									<tr>
-										<th colspan="3" style="background-color: #eee; text-align:center;">게시글 보기</th>
+										<th colspan="5" style="background-color: #eee; text-align:center;">게시글 보기</th>
 									</tr>	
 								</thead>
 								<tbody>
 									<tr>
-										<td style="width: 20%;">글 제목</td>
+										<td style="width:20%;">글 제목</td>
 										<td colspan="2"><%= freeBoard.getFreeBoardTitle().replaceAll(" ","&nbsp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll("\n","<br>") %></td>
+										<td colspan="2"></td>
 									</tr>
 									<tr>
 										<td>작성자</td>
 										<td colspan="2"><%= freeBoard.getUserID() %></td>
+										<td colspan="2"></td>
 									</tr>
 									<tr>
 										<td>작성일자</td>
 										<td colspan="2"><%= freeBoard.getFreeBoardDate().substring(0,11) + freeBoard.getFreeBoardDate().substring(11,13)+"시" +freeBoard.getFreeBoardDate().substring(14,16)+"분" %></td>
+										<td colspan="2"></td>
 									</tr>
 								</tbody>
 							</table>
 							<table class="table" style="text-align:left;" >
 							<tr>
-								<td colspan="2" style="min-height:200px;  "><%= freeBoard.getFreeBoardContent().replaceAll(" ","&nbsp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll("\n","<br>") %></td>
+								<td colspan="2" style="min-height:200px; padding:20px;  "><%= freeBoard.getFreeBoardContent().replaceAll(" ","&nbsp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll("\n","<br>") %></td>
 							</tr>
 							</table>
 								
@@ -105,8 +108,8 @@
 								<%
 									if(userID != null && userID.equals(freeBoard.getUserID())){
 								%>
-									<a href="freeBoardupdate.jsp?freeBoardID=<%= freeBoardID %>" class="btn btn-primary pull-right">수정</a>
-									<a onclick="return confirm('삭제하시겠습니까?')" href="freeBoarddeleteAction.jsp?freeBoardID=<%= freeBoardID %>" class="btn btn-danger pull-right">삭제</a>
+									<a href="freeBoardUpdate.jsp?freeBoardID=<%= freeBoardID %>" class="btn btn-primary pull-right">수정</a>
+									<a onclick="return confirm('삭제하시겠습니까?')" href="freeBoardDeleteAction.jsp?freeBoardID=<%=freeBoardID %>" class="btn btn-danger pull-right">삭제</a>
 								<%
 									}
 								%>
@@ -122,8 +125,8 @@
 								<tbody>
 									<tr>
 										<td><textarea class="form-control" placeholder="댓글을 입력하세요" name="replyContent" maxlength="512" style="height: 50px; width: 100%;"></textarea>
-										<input type="hidden" name="freeBoardID" value=<%=freeBoardID %>><br>
-										<input type="submit" value="작성" style="height: 40px; width: 6%;">
+										<input type="hidden" name="freeBoardID" value=<%=freeBoardID %>>
+										<input type="submit" class="btn btn-primary" value="작성" style="height: 45px; width: 10%; margin-top:10px;">
 										</td>
 										
 									</tr>
@@ -141,14 +144,14 @@
 									for(int i=replylist.size()-1; i>=0; i--){
 								%>
 									<tr>
-										<td class="reply-Content" style="width:75%;"><%=replylist.get(i).getReplyContent() %>
-										<td><%=replylist.get(i).getUserID() %></td>
+										<td class="reply-Content" style="width:70%;"><%=replylist.get(i).getReplyContent() %>
+										<td class="reply-User" style="width:10%;"><%=replylist.get(i).getUserID() %></td>
 										<td style="font-size: 80%"><%= replylist.get(i).getReplyDate().substring(0,11)+replylist.get(i).getReplyDate().substring(11,13)+"시"+ replylist.get(i).getReplyDate().substring(14,16)+"분"%></td>
 										<%
 									if(userID != null && userID.equals(freeBoard.getUserID())){
 								%>
 									<td>
-									<a onclick="return confirm('삭제하시겠습니까?')" href="BoardReplydeleteAction.jsp?replyID=<%= replylist.get(i).getReplyID() %>" class="btn btn-danger pull-right">삭제</a>
+									<a onclick="return confirm('삭제하시겠습니까?')" href="BoardReplydeleteAction.jsp?freeBoardID=<%=freeBoardID %>&replyID=<%= replylist.get(i).getReplyID() %>" class="btn btn-danger pull-right">삭제</a>
 								<%
 									}
 								%>

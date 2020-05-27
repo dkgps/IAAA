@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="freeboard.FreeBoardDAO" %>
+<%@ page import="freeboard.FreeBoard" %>
 <%@ page import="freeboard.boardReply" %>
 <%@ page import="java.io.PrintWriter" %>
 <%
@@ -27,36 +28,39 @@
 			script.println("</script>");	
 		}
 		
-		int replyID=0;
+		int freeBoardID=0;
 		
-		if(request.getParameter("replyID")!=null){
-			replyID = Integer.parseInt(request.getParameter("replyID"));
+		if(request.getParameter("freeBoardID")!=null){
+			freeBoardID = Integer.parseInt(request.getParameter("freeBoardID"));
 		}
-		if(replyID==0){
+		if(freeBoardID==0){
 			PrintWriter script = response.getWriter();
 			script.println("<script>");
-			script.println("alert('유효하지 않은 댓글입니다.');");
+			script.println("alert('유효하지 않은 글입니다.');");
+			script.println("location.href='freeBoard.jsp'");
+			script.println("</script>");
+		}	
+	
+		FreeBoard freeBoard = new FreeBoardDAO().getFreeBoard(freeBoardID);
+		if(!userID.equals(freeBoard.getUserID())){
+			PrintWriter script = response.getWriter();
+			script.println("<script>");
+			script.println("alert('권한이 없습니다.');");
 			script.println("location.href='freeBoard.jsp'");
 			script.println("</script>");
 		}else{
-			int freeBoardID=0;
-			
-			if(request.getParameter("freeBoardID")!=null){
-				freeBoardID = Integer.parseInt(request.getParameter("freeBoardID"));
-			}
-	
 			FreeBoardDAO freeBoardDAO = new FreeBoardDAO();
-				int result = freeBoardDAO.delete(replyID);
+			int result = freeBoardDAO.freeBoardDelete(freeBoardID);
 				if(result == 1){
 					PrintWriter script = response.getWriter();
 					script.println("<script>");
-					script.println("alert('댓글이 삭제되었습니다.')");
-					script.println("location.href='freeBoardView.jsp?freeBoardID="+freeBoardID+"'");
+					script.println("alert('글이 삭제되었습니다.')");
+					script.println("location.href='freeBoard.jsp");
 					script.println("</script>");
 				}else if(result == -1){
 					PrintWriter script = response.getWriter();
 					script.println("<script>");
-					script.println("alert('댓글 삭제에 실패했습니다.')");
+					script.println("alert('삭제에 실패했습니다.')");
 					script.println("history.back();");
 					script.println("</script>");
 				}
