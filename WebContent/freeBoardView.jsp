@@ -64,7 +64,7 @@
                 </div>
             </div>
     </nav>
-
+ 
 		<section class="container mt-5 mb-5" style="max-width: 1000px;">
 			<div class="jumbotron" style="padding-top: 20px; margin-top: 50px; height:auto;">
 				<h3 style="text-align: center">자유게시판</h3> <br><br>

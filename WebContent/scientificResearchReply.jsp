@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.io.PrintWriter" %>
-<%@ page import = "research.ResearchDAO" %>
-<%@ page import = "research.ResearchDTO" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,16 +8,8 @@
 <meta name="viewport" content="width=device-width, initial-scale='1'">
 <link rel="stylesheet" href="css/bootstrap.css">
 <link rel="stylesheet" href="css/nav.css">
-<style>
-li{
-margin-left:1.5rem;
-}
 
-a:link{
-text-decoration:none;
-}
-</style>
-<title>학술 연구 자료</title>
+<title>답변 작성</title>
 </head>
 <body>
 <%
@@ -47,17 +37,6 @@ text-decoration:none;
 		script.println("location.href='scientificResearch.jsp'");
 		script.println("</script>");
 	}
-	
-	ResearchDAO researchDAO = new ResearchDAO();
-	ResearchDTO research = researchDAO.getResearch(researchID);
-	if(research.getResearchAvailable() == 0){
-		PrintWriter script = response.getWriter();
-		script.println("<script>");
-		script.println("alert('삭제된 게시물입니다.')");
-		script.println("location.href='scientificResearch.jsp'");
-		script.println("</script>");
-	}
-	researchDAO.hit(researchID);
 	
 %>
 	<nav class="navbar navbar-expand-lg navbar-dark" id="mainNav">
@@ -89,53 +68,50 @@ text-decoration:none;
                 </div>
             </div>
     </nav>
-	<section class="container mt-5 mb-5" style="max-width: 1000px;">
-		<div class="jumbotron" style="padding-top: 20px; margin-top: 50px; height:auto; ">
+
+	<section class="container mt-5 mb-5" style="max-width: 900px;">
+		<div class="jumbotron" style="padding-top: 20px; margin-top: 50px; ">
 			<div class="container">
-				<div class="row" style="padding-top:30px; ">
-					
+				<div class="row" style="padding-top:30px;">
+					<form method="post" action="scientificResearchReplyAction.jsp" enctype="multipart/form-data">
 						<table class="table table-striped" style="text-align: center; border: 1px solid #ddd">
 							<thead>
 								<tr>
-									<th colspan="5" style="background-color: #eee; text-align:center;">게시물 보기</th>
+									<th colspan="2" style="background-color: #eee; text-align:center;">답변 작성 양식</th>
 								</tr>	
 							</thead>
 							<tbody>
 								<tr>
-									<td><h5>제목</h5></td>
-									<td colspan="4"><h5><%=research.getResearchTitle() %></h5></td>
+									<td colspan="2"><input type="text" class="form-control" placeholder="글 제목" name="researchTitle" maxlength="50"></td>
 								</tr>
 								<tr>
-									<td><h5>작성자</h5></td>
-									<td colspan="4"><h5><%=research.getUserID() %></h5></td>
+									<td colspan="2"><textarea class="form-control" placeholder="글 내용" name="researchContent" maxlength="2048" style="height: 300px;"></textarea></td>
 								</tr>
 								<tr>
-									<td><h5>작성날짜</h5></td>
-									<td colspan="2"><h6><%=research.getResearchDate() %></h6></td>
-									<td><h5>조회수</h5></td>
-									<td colspan="2"><h5><%=research.getResearchHit()+1%></h5></td>
+									<td style="background-color:#eee; border:none;">
+									<input type="hidden" name="userID" value="<%=userID%>">
+									<input type="hidden" name="researchID" value="<%=researchID%>">
+									</td>
 								</tr>
 								<tr>
-									<td colspan="2" style="height: 300px; text-align:left; padding: 2rem;"><%=research.getResearchContent() %></td>
-								</tr>
-								<tr>
-									<td><h5>첨부파일</h5></td>
-									<td colspan="4"><h5><a href="scientificResearchDownload.jsp?researchID=<%=research.getResearchID() %>"><%= research.getResearchFile()%></a></h5></td>
+									<td><h5>파일 업로드</h5></td>
+									<td>
+										<input type="file" name="researchFile" class="file">
+										<div class="input-group col-xs-12" style="padding-top:1rem;">
+											<input type="text" class="form-control input-lg" disabled placeholder="파일을 업로드하세요.">
+											<span class="input-group-btn">
+												<button class="browse btn btn-primary input-lg" type="button">파일 찾기</button>
+											</span>
+										</div>
+											
+									</td>
 								</tr>
 							</tbody>	
 						</table>
+						<input type="submit" class="btn btn-primary pull-right" value="글쓰기">
+					</form>	
 				</div>
 			</div>
-								<a href="scientificResearch.jsp" class="btn btn-success pull-right">목록</a>
-								<a href="scientificResearchReply.jsp?researchID=<%= researchID %>" class="btn btn-primary pull-left">답변</a>
-								<%
-									if(userID != null && userID.equals(research.getUserID())){
-								%>
-									<a href="scientificResearchUpdate.jsp?researchID=<%= researchID %>" class="btn btn-primary pull-right">수정</a>
-									<a onclick="return confirm('삭제하시겠습니까?')" href="scientificResearchDelete.jsp?researchID=<%=researchID %>" class="btn btn-danger pull-right">삭제</a>
-								<%
-									}
-								%>
 		</div>
 	</section>
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>

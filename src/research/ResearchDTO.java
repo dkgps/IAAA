@@ -12,6 +12,7 @@ public class ResearchDTO {
 	private int researchGroup;
 	private int researchSequence;
 	private int researchLevel;
+	private int researchAvailable;
 	
 	public String getUserID() {
 		return userID;
@@ -79,6 +80,13 @@ public class ResearchDTO {
 	public void setResearchLevel(int researchLevel) {
 		this.researchLevel = researchLevel;
 	}
+	public int getResearchAvailable() {
+		return researchAvailable;
+	}
+	public void setResearchAvailable(int researchAvailable) {
+		this.researchAvailable = researchAvailable;
+	}
+	
 	
 	
 }

@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale='1'">
 <link rel="stylesheet" href="css/bootstrap.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="css/nav.css">
 
 <title>학술 연구 자료 업로드</title>
@@ -73,16 +74,17 @@
 									<td colspan="2"><input type="text" class="form-control" placeholder="글 제목" name="researchTitle" maxlength="50"></td>
 								</tr>
 								<tr>
-									<td colspan="2"><textarea class="form-control" placeholder="글 내용" name="researchContent" maxlength="2048" style="height: 350px;"></textarea></td>
+									<td colspan="2"><textarea class="form-control" placeholder="글 내용" name="researchContent" maxlength="2048" style="height: 300px;"></textarea></td>
 								</tr>
 								<tr>
 									<td><h5>파일 업로드</h5></td>
 									<td>
 										<input type="file" name="researchFile" class="file">
 										<div class="input-group col-xs-12" style="padding-top:1rem;">
+											<span class="input-group-addon"><i class="glyphicon glyphicon-picture"></i></span>
 											<input type="text" class="form-control input-lg" disabled placeholder="파일을 업로드하세요.">
 											<span class="input-group-btn">
-												<button class="browse btn btn-primary input-lg" type="button">파일 찾기</button>
+												<button class="browse btn btn-primary input-lg" type="button"><i class="glyphicon glyphicon-search"></i>파일 찾기</button>
 											</span>
 										</div>
 											

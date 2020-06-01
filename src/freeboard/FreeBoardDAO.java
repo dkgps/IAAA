@@ -104,7 +104,7 @@ public class FreeBoardDAO {
 		String SQL = "select * from freeboard where freeBoardID > ? and freeBoardAvailable = 1";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
-			pstmt.setInt(1, pageNumber);
+			pstmt.setInt(1, (pageNumber -1) * 10);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				return true;

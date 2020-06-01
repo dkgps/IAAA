@@ -27,7 +27,7 @@ public class ResearchDAO {
 			
 	
 	public int write(String userID, String researchTitle, String researchContent, String researchFile, String researchRealFile) {
-		String SQL = "insert into research select ?, ifnull((select max(researchID)+1 from research),1), ?,?, now(), 0, ?,?,ifnull((select max(researchGroup)+1 from research),0) , 0, 0";
+		String SQL = "insert into research select ?, ifnull((select max(researchID)+1 from research),1), ?,?, now(), 0, ?,?,ifnull((select max(researchGroup)+1 from research),0) , 0, 0, 1";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			pstmt.setString(1, userID);
@@ -43,11 +43,13 @@ public class ResearchDAO {
 		return -1; //db오류
 	}
 	
-	public ArrayList<ResearchDTO> getList(){
-		String SQL = "SELECT * from research order by researchGroup desc, researchSequence asc";
+	public ArrayList<ResearchDTO> getList(int pageNumber){
+		String SQL = "SELECT * from research where researchGroup > (select max(researchGroup) from research) - ? and researchGroup <= (select max(researchGroup) from research) - ? order by researchGroup desc, researchSequence asc";
 		ArrayList<ResearchDTO> list = new ArrayList<ResearchDTO>();
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setInt(1, pageNumber * 10);
+			pstmt.setInt(2, (pageNumber-1) * 10);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				ResearchDTO research = new ResearchDTO();
@@ -62,6 +64,7 @@ public class ResearchDAO {
 				research.setResearchGroup(rs.getInt("researchGroup"));
 				research.setResearchSequence(rs.getInt("researchSequence"));
 				research.setResearchLevel(rs.getInt("researchLevel"));
+				research.setResearchAvailable(rs.getInt("researchAvailable"));
 				list.add(research);
 			}
 		}catch (Exception e) {
@@ -70,7 +73,22 @@ public class ResearchDAO {
 		return list; // 첫번째 게시글
 
 	}
-	
+
+	public boolean nextPage(int pageNumber) {
+		String SQL = "select * from research where researchGroup >= ?";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setInt(1, pageNumber * 10);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				return true;
+			}
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 	
 	
 	public ResearchDTO getResearch(int researchID) {
@@ -92,6 +110,7 @@ public class ResearchDAO {
 				research.setResearchGroup(rs.getInt("researchGroup"));
 				research.setResearchSequence(rs.getInt("researchSequence"));
 				research.setResearchLevel(rs.getInt("researchLevel"));
+				research.setResearchAvailable(rs.getInt("researchAvailable"));
 				return research;
 			}
 		}catch(Exception e) {
@@ -166,11 +185,11 @@ public class ResearchDAO {
 		return -1; 
 	}
 	
-	public int freeBoardDelete(int freeBoardID) {
-		String SQL = "delete from freeboard where freeBoardID=?";
+	public int researchDelete(int researchID) {
+		String SQL = "update research set researchAvailable = 0 where researchID=?";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
-			pstmt.setInt(1, freeBoardID); 
+			pstmt.setInt(1, researchID); 
 			return pstmt.executeUpdate(); 
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -179,22 +198,39 @@ public class ResearchDAO {
 		return -1; 
 	}
 	
-	public int replyNext() {
-		String SQL = "SELECT replyID from boardreply order by replyID desc";
+	public int reply(String userID, String researchTitle, String researchContent, String researchFile, String researchRealFile, ResearchDTO parent) {
+		String SQL = "insert into research select ?, ifnull((select max(researchID)+1 from research),1), ?,?, now(), 0, ?, ?, ?, ?, ?, 1";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
-			rs = pstmt.executeQuery();
-			if(rs.next()) {
-				return rs.getInt(1)+1;
-			}
-			return 1; // 첫번째 게시글
+			pstmt.setString(1, userID);
+			pstmt.setString(2, researchTitle);
+			pstmt.setString(3, researchContent);
+			pstmt.setString(4, researchFile);
+			pstmt.setString(5, researchRealFile);
+			pstmt.setInt(6, parent.getResearchGroup());
+			pstmt.setInt(7, parent.getResearchSequence()+1);
+			pstmt.setInt(8, parent.getResearchLevel()+1);
+			return pstmt.executeUpdate(); //성공시 1
 		}catch(Exception e) {
-			
+			e.printStackTrace();
 		}
 		
 		return -1; //db오류
 	}
 	
+	public int replyUpdate(ResearchDTO parent) {
+		String SQL = "update research set researchSequence= researchSequence+1 where researchGroup=? and researchSequence > ?";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setInt(1, parent.getResearchGroup());
+			pstmt.setInt(2, parent.getResearchSequence());
+			return pstmt.executeUpdate(); 
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return -1; 
+	}
 	
 	
 }

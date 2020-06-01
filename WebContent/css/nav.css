@@ -1,4 +1,5 @@
 @charset "UTF-8";
+@import url("//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css");
 body{
 		background-image: url("../assets/img/header-bg.jpg");
 		background-repeat: no-repeat;
@@ -6,7 +7,7 @@ body{
   		background-position: center center;
   		background-size: cover;
 		overflow:scroll;
-	}
+}
 	.navbar {
 	  position: relative;
 	  display: flex;

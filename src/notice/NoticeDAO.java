@@ -100,7 +100,7 @@ public class NoticeDAO {
 		String SQL = "select * from notice where noticeID > ? and noticeAvailable = 1";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
-			pstmt.setInt(1, pageNumber);
+			pstmt.setInt(1, (pageNumber -1) * 10);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				return true;

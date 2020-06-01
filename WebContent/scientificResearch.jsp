@@ -10,6 +10,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale='1'">
 <link rel="stylesheet" href="css/bootstrap.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="css/nav.css">
 <style>
 li{
@@ -29,13 +30,16 @@ text-decoration:none;
 		userID = (String) session.getAttribute("userID");
 	}
 	
-	ArrayList<ResearchDTO> researchList = new ResearchDAO().getList();
+	
 	
 	
 	int pageNumber = 1;
 	if(request.getParameter("pageNumber")!=null){
 		pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
 	}
+	
+	ResearchDAO researchDAO = new ResearchDAO();
+	ArrayList<ResearchDTO> researchList = researchDAO.getList(pageNumber);
 
 %>
 	<nav class="navbar navbar-expand-lg navbar-dark" id="mainNav">
@@ -94,7 +98,28 @@ text-decoration:none;
 							%>
 								<tr>
 									<td><%=research.getResearchID() %></td>
-									<td><a href="scientificResearchView.jsp?researchID=<%=research.getResearchID() %>"><%=research.getResearchTitle() %></a></td>
+									<td style="text-align:left; padding-left:5rem;"><a href="scientificResearchView.jsp?researchID=<%=research.getResearchID() %>">
+									
+							<%
+								for(int j=0; j<research.getResearchLevel(); j++){
+							%>
+									<span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+							<%
+								}
+							%>
+							<%
+								if(research.getResearchAvailable()==0){	
+							%>
+								(삭제된 게시물입니다.)
+							<%
+								}else{
+							%>
+								<%=research.getResearchTitle() %>
+							
+							<%
+								}
+							%>
+							</a></td>
 									<td><%=research.getUserID() %></td>
 									<td style="font-size: 80%;"><%=research.getResearchDate() %></td>
 									<td><%=research.getResearchHit() %></td>
@@ -107,6 +132,18 @@ text-decoration:none;
 					</table>
 					
 					<a href="scientificResearchWrite.jsp" class="btn btn-primary pull-right">글쓰기</a>
+					<%
+						if(pageNumber!=1){
+					%>
+					<a href="scientificResearch.jsp?pageNumber=<%=pageNumber -1%>" class="btn btn-success">이전</a>
+					<%
+						}
+					 	if(researchDAO.nextPage(pageNumber)){
+					%>
+					<a href="scientificResearch.jsp?pageNumber=<%=pageNumber +1%>" class="btn btn-success">다음</a>
+					<%
+					 	}
+					%>
 				</div>
 			</div>
 		</div>
