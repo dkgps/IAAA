@@ -1,9 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.io.PrintWriter" %>
 <%@ page import = "notice.Notice" %>
 <%@ page import = "notice.NoticeDAO" %>
-<%@ page import = "java.util.ArrayList" %>
-<%@ page import = "java.io.PrintWriter" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,8 +12,12 @@
 <link rel="stylesheet" href="css/nav.css">
 <style>
 li{
-margin-left:1.5rem;
+	margin-left:1.5rem;
+}
 
+.navbar-nav{
+	padding-left:3.65rem;
+	
 }
 
 .nav-item:active{
@@ -22,7 +25,8 @@ margin-left:1.5rem;
 }
 
 </style>
-<title>공지사항</title>
+<title>공지사항 글</title>
+
 </head>
 <body>
 <%
@@ -31,19 +35,36 @@ margin-left:1.5rem;
 		userID = (String) session.getAttribute("userID");
 	}
 	
-	int pageNumber = 1;
-	if(request.getParameter("pageNumber")!=null){
-		pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+	if(userID==null){
+		PrintWriter script = response.getWriter();
+		script.println("<script>");
+		script.println("alert('로그인을 해주세요')");
+		script.println("location.href='login.jsp'");
+		script.println("</script>");
 	}
+	int noticeID = 0;
+	if(request.getParameter("noticeID") != null){
+		noticeID = Integer.parseInt(request.getParameter("noticeID"));
+	}
+	
+	if(noticeID == 0){
+		PrintWriter script = response.getWriter();
+		script.println("<script>");
+		script.println("alert('유효하지 않은 글입니다.')");
+		script.println("location.href='notice.jsp'");
+		script.println("</script>");
+	}
+	
+	Notice notice = new NoticeDAO().getNotice(noticeID);
 
 %>
 	<nav class="navbar navbar-expand-lg navbar-dark" id="mainNav">
             <div class="container">
                 <a class="navbar-brand js-scroll-trigger" href="index.jsp"><img src="assets/img/navbar-logo.png" alt="" /></a>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">Menu<i class="fas fa-bars ml-1"></i></button>
-                <div class="collapse navbar-collapse" id="navbarResponsive" style="float:right;">
+                <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav text-uppercase ml-auto">
-                    	<li class="nav-item active"><a class="nav-link js-scroll-trigger" href="notice.jsp" style="color: #fed136;">Notice</a></li>
+                     	<li class="nav-item active"><a class="nav-link js-scroll-trigger" href="notice.jsp" style="color: #fed136;">Notice</a></li>
 
 <%
 	if(userID==null){
@@ -68,57 +89,40 @@ margin-left:1.5rem;
             </div>
     </nav>
 
-		<section class="container mt-5 mb-5" style="max-width: 800px;">
-			<div class="jumbotron" style="padding-top: 20px; margin-top: 50px; height:650px;">
-				<h3 style="text-align: center">공지사항</h3>
-				<div class="container">
-					<div class="row">
-						
-						<br>
-						<table class="table table-striped" style="text-align: center; border: 1px solid #ddd">
+	<section class="container mt-5 mb-5" style="max-width: 800px;">
+		<div class="jumbotron" style="padding-top: 20px; margin-top: 50px; height:650px;">
+			<div class="container" >
+				<div class="row" style="padding-top:30px; ">
+					
+						<table class="table table-striped" style="text-align: center; border: 1px solid #ddd;">
 							<thead>
 								<tr>
-									<th style="background-color: #eee; text-align:center;">번호</th>
-									<th style="background-color: #eee; text-align:center; width:65%;">제목</th>
-									<th style="background-color: #eee; text-align:center;">작성자</th>
-									<th style="background-color: #eee; text-align:center;">작성일</th>
+									<th colspan="2" style="background-color: #eee; text-align:center;">공지사항 글</th>
 								</tr>	
 							</thead>
 							<tbody>
-							<%
-								NoticeDAO noticeDAO = new NoticeDAO();
-								ArrayList<Notice> list = noticeDAO.getList(pageNumber);
-								 
-								for(int i=0; i<list.size(); i++){
-							
-							%>
 								<tr>
-									<td><%= list.get(i).getNoticeID() %></td>
-									<td><a href="noticeView.jsp?noticeID=<%=list.get(i).getNoticeID()%>"><%=list.get(i).getNoticeTitle() %></a></td>
-									<td><%= list.get(i).getUserID() %></td>
-									<td style="font-size: 80%"><%= list.get(i).getNoticeDate().substring(0,11)+list.get(i).getNoticeDate().substring(11,13)+"시"+ list.get(i).getNoticeDate().substring(14,16)+"분"%></td>
+									<td class="noticeTitle" style="text-align:left;">&nbsp; <%=notice.getNoticeTitle() %></td>
 								</tr>
-								
-							<%
-								}
-							%>
-							</tbody>
-					</table>
-					<%
-						if(pageNumber !=1){
-					%>
-						<a href="notice.jsp?pageNumber=<%=pageNumber -1 %>" class="btn btn-success btn-arraw-left">이전</a>
-					<%
-						} 
-						if(noticeDAO.nextPage(pageNumber+1)){
-					%>	
-						<a href="notice.jsp?pageNumber=<%=pageNumber +1 %>" class="btn btn-success btn-arraw-right">다음</a>
-					<%
-						}
-					%>
-					<a href="noticeWrite.jsp" class="btn btn-primary pull-right">글쓰기</a>
+								<tr>
+									<td class="noticeContent" style="height:350px; text-align:left; border: 1px solid #ddd;">&nbsp; <%= notice.getNoticeContent() %></td>
+								</tr>
+							</tbody>	
+						</table>
+
 				</div>
 			</div>
+				<br>
+						<a href="notice.jsp" class="btn btn-success pull-right">목록</a>
+								<%
+									if(userID != null && userID.equals(notice.getUserID())){
+								%>
+									<a href="noticeUpdate.jsp?noticeID=<%= noticeID %>" class="btn btn-primary pull-right">수정</a>
+									<a onclick="return confirm('삭제하시겠습니까?')" href="noticeDeleteAction.jsp?noticeID=<%=noticeID %>" class="btn btn-danger pull-right">삭제</a>
+								<%
+									}
+								%>
+			
 		</div>
 	</section>
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>

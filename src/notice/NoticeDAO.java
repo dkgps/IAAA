@@ -111,5 +111,28 @@ public class NoticeDAO {
 		}
 		return false;
 	}
+	
+	public Notice getNotice(int noticeID){
+		String SQL = "select * from notice where noticeID = ?";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setInt(1, noticeID);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				Notice notice = new Notice();
+				notice.setNoticeID(rs.getInt(1));
+				notice.setNoticeTitle(rs.getString(2));
+				notice.setUserID(rs.getString(3));
+				notice.setNoticeDate(rs.getString(4));
+				notice.setNoticeContent(rs.getString(5));
+				notice.setNoticeAvailable(rs.getInt(6));
+				return notice;
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
 		
 }

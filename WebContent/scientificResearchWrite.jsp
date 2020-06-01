@@ -1,9 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import = "freeboard.FreeBoard" %>
-<%@ page import = "notice.NoticeDAO" %>
-<%@ page import = "java.util.ArrayList" %>
-<%@ page import = "java.io.PrintWriter" %>
+<%@ page import="java.io.PrintWriter" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,13 +8,8 @@
 <meta name="viewport" content="width=device-width, initial-scale='1'">
 <link rel="stylesheet" href="css/bootstrap.css">
 <link rel="stylesheet" href="css/nav.css">
-<style>
-li{
-margin-left:1.5rem;
-}
 
-</style>
-<title>공지사항</title>
+<title>학술 연구 자료 업로드</title>
 </head>
 <body>
 <%
@@ -26,9 +18,12 @@ margin-left:1.5rem;
 		userID = (String) session.getAttribute("userID");
 	}
 	
-	int pageNumber = 1;
-	if(request.getParameter("pageNumber")!=null){
-		pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+	if(userID==null){
+		PrintWriter script = response.getWriter();
+		script.println("<script>");
+		script.println("alert('로그인을 해주세요')");
+		script.println("location.href='login.jsp'");
+		script.println("</script>");
 	}
 
 %>
@@ -50,9 +45,9 @@ margin-left:1.5rem;
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="photo1.jsp">PHOTO 1</a></li>
                     	<li class="nav-item"><a class="nav-link js-scroll-trigger" href="photo2.jsp">PHOTO 2</a></li>
                     	<li class="nav-item"><a class="nav-link js-scroll-trigger" href="observation.jsp">Observation</a></li>
-                    	<li class="nav-item"><a class="nav-link js-scroll-trigger" href="scientificResearch.jsp">Research</a></li>
+                    	<li class="nav-item"><a class="nav-link js-scroll-trigger" href="scientificResearch.jsp" style="color: #fed136;">Research</a></li>
                     	<li class="nav-item"><a class="nav-link js-scroll-trigger" href="freeBoard.jsp">FreeBoard</a></li>
-                    	<li class="nav-item"><a class="nav-link js-scroll-trigger" href="aboutMe.jsp" style="color: #fed136;">About Me</a></li>	
+                    	<li class="nav-item"><a class="nav-link js-scroll-trigger" href="aboutMe.jsp">About Me</a></li>	
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="logoutAction.jsp">Logout</a></li>
 <%
 	}
@@ -62,37 +57,41 @@ margin-left:1.5rem;
             </div>
     </nav>
 
-		<section class="container mt-5 mb-5" style="max-width: 1000px;">
-			<div class="jumbotron" style="padding-top: 20px; margin-top: 50px; height:650px;">
-				<h3 style="text-align: center">나를 소개합니다!</h3>
-				<div class="container">
-					<div class="row">
-						
-						<br>
+	<section class="container mt-5 mb-5" style="max-width: 900px;">
+		<div class="jumbotron" style="padding-top: 20px; margin-top: 50px; ">
+			<div class="container">
+				<div class="row" style="padding-top:30px;">
+					<form method="post" action="scientificResearchWriteAction.jsp" enctype="multipart/form-data">
 						<table class="table table-striped" style="text-align: center; border: 1px solid #ddd">
 							<thead>
 								<tr>
-									<th style="background-color: #eee; text-align:center;">번호</th>
-									<th style="background-color: #eee; text-align:center; width:65%;">제목</th>
-									<th style="background-color: #eee; text-align:center;">작성자</th>
-									<th style="background-color: #eee; text-align:center;">작성일</th>
-									<th style="background-color: #eee; text-align:center;width:7%;">조회수</th>
+									<th colspan="2" style="background-color: #eee; text-align:center;">파일 업로드</th>
 								</tr>	
 							</thead>
 							<tbody>
 								<tr>
-									<td>1</td>
-									<td>안녕하세요</td>
-									<td>홍길동</td>
-									<td>2020-05-26</td>
-									<td>15</td>
+									<td colspan="2"><input type="text" class="form-control" placeholder="글 제목" name="researchTitle" maxlength="50"></td>
 								</tr>
-								
-							
-							</tbody>
-					</table>
-					
-					<a href="freeBoardWrite.jsp" class="btn btn-primary pull-right">글쓰기</a>
+								<tr>
+									<td colspan="2"><textarea class="form-control" placeholder="글 내용" name="researchContent" maxlength="2048" style="height: 350px;"></textarea></td>
+								</tr>
+								<tr>
+									<td><h5>파일 업로드</h5></td>
+									<td>
+										<input type="file" name="researchFile" class="file">
+										<div class="input-group col-xs-12" style="padding-top:1rem;">
+											<input type="text" class="form-control input-lg" disabled placeholder="파일을 업로드하세요.">
+											<span class="input-group-btn">
+												<button class="browse btn btn-primary input-lg" type="button">파일 찾기</button>
+											</span>
+										</div>
+											
+									</td>
+								</tr>
+							</tbody>	
+						</table>
+						<input type="submit" class="btn btn-primary pull-right" value="글쓰기">
+					</form>	
 				</div>
 			</div>
 		</div>

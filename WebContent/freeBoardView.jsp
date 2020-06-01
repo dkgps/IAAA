@@ -139,6 +139,7 @@
 							<tbody>
 															<%
 									FreeBoardDAO freeBoardDAO = new FreeBoardDAO();
+									boardReply boardreply = freeBoardDAO.getBoardReply(freeBoardID);
 									ArrayList<boardReply> replylist = freeBoardDAO.getReply(freeBoardID);
 									
 									for(int i=replylist.size()-1; i>=0; i--){
@@ -148,10 +149,10 @@
 										<td class="reply-User" style="width:10%;"><%=replylist.get(i).getUserID() %></td>
 										<td style="font-size: 80%"><%= replylist.get(i).getReplyDate().substring(0,11)+replylist.get(i).getReplyDate().substring(11,13)+"시"+ replylist.get(i).getReplyDate().substring(14,16)+"분"%></td>
 										<%
-									if(userID != null && userID.equals(freeBoard.getUserID())){
+									if(userID != null && userID.equals(boardreply.getUserID())){
 								%>
-									<td>
-									<a onclick="return confirm('삭제하시겠습니까?')" href="BoardReplydeleteAction.jsp?freeBoardID=<%=freeBoardID %>&replyID=<%= replylist.get(i).getReplyID() %>" class="btn btn-danger pull-right">삭제</a>
+									<td style="width:10%;">
+									<a onclick="return confirm('삭제하시겠습니까?')" href="./boardReplyDeleteAction.jsp?freeBoardID=<%=freeBoardID %>&replyID=<%= replylist.get(i).getReplyID() %>" class="btn btn-danger pull-right" style="width:60%; font-size:70%;">삭제</a>
 								<%
 									}
 								%>

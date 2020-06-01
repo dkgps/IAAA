@@ -1,9 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import = "research.ResearchDAO" %>
-<%@ page import = "research.ResearchDTO" %>
-<%@ page import = "java.util.ArrayList" %>
-<%@ page import = "java.io.PrintWriter" %>
+<%@ page import="java.io.PrintWriter" %>
+<%@ page import="research.ResearchDTO" %>
+<%@ page import="research.ResearchDAO" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,16 +10,8 @@
 <meta name="viewport" content="width=device-width, initial-scale='1'">
 <link rel="stylesheet" href="css/bootstrap.css">
 <link rel="stylesheet" href="css/nav.css">
-<style>
-li{
-margin-left:1.5rem;
-}
 
-a:link{
-text-decoration:none;
-}
-</style>
-<title>학술 연구 자료 게시판</title>
+<title>학술 연구 게시판 수정</title>
 </head>
 <body>
 <%
@@ -29,13 +20,28 @@ text-decoration:none;
 		userID = (String) session.getAttribute("userID");
 	}
 	
-	ArrayList<ResearchDTO> researchList = new ResearchDAO().getList();
-	
-	
-	int pageNumber = 1;
-	if(request.getParameter("pageNumber")!=null){
-		pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+	if(userID==null){
+		PrintWriter script = response.getWriter();
+		script.println("<script>");
+		script.println("alert('로그인을 해주세요')");
+		script.println("location.href='login.jsp'");
+		script.println("</script>");
 	}
+	
+	int researchID = 0;
+	if(request.getParameter("researchID")!=null){
+		researchID = Integer.parseInt(request.getParameter("researchID"));
+	}
+	
+	if(researchID==0){
+		PrintWriter script = response.getWriter();
+		script.println("<script>");
+		script.println("alert('유효하지 않은 글입니다.')");
+		script.println("history.back();");
+		script.println("</script>");
+	}
+	
+	ResearchDTO research = new ResearchDAO().getResearch(researchID);
 
 %>
 	<nav class="navbar navbar-expand-lg navbar-dark" id="mainNav">
@@ -67,46 +73,49 @@ text-decoration:none;
                 </div>
             </div>
     </nav>
-
-		<section class="container mt-5 mb-5" style="max-width: 1000px;">
-			<div class="jumbotron" style="padding-top: 20px; margin-top: 50px; height:650px;">
-				<h3 style="text-align: center">학술 연구</h3>
-				<p style="text-align: center; color:grey; font-size:80%">딥스카이, 스타샷 정보, 학술지에 관련된 글만 올려주세요</p>
-				<div class="container">
-					<div class="row">
-						
-						<br>
+	<section class="container mt-5 mb-5" style="max-width: 900px;">
+		<div class="jumbotron" style="padding-top: 20px; margin-top: 50px; ">
+			<div class="container">
+				<div class="row" style="padding-top:30px;">
+					<form method="post" action="scientificResearchUpdateAction.jsp?researchID=<%=researchID%>" enctype="multipart/form-data">
 						<table class="table table-striped" style="text-align: center; border: 1px solid #ddd">
 							<thead>
 								<tr>
-									<th style="background-color: #eee; text-align:center;">번호</th>
-									<th style="background-color: #eee; text-align:center; width:65%;">제목</th>
-									<th style="background-color: #eee; text-align:center;">작성자</th>
-									<th style="background-color: #eee; text-align:center;">작성일</th>
-									<th style="background-color: #eee; text-align:center;">조회수</th>
+									<th colspan="2" style="background-color: #eee; text-align:center;">글 수정</th>
 								</tr>	
 							</thead>
 							<tbody>
-							<%
-								for(int i=0; i<researchList.size(); i++){
-									ResearchDTO research = researchList.get(i);
-								
-							%>
 								<tr>
-									<td><%=research.getResearchID() %></td>
-									<td><a href="scientificResearchView.jsp?researchID=<%=research.getResearchID() %>"><%=research.getResearchTitle() %></a></td>
-									<td><%=research.getUserID() %></td>
-									<td style="font-size: 80%;"><%=research.getResearchDate() %></td>
-									<td><%=research.getResearchHit() %></td>
+									<td>글 제목</td>
+									<td colspan="2"><input type="text" class="form-control" placeholder="글 제목" name="researchTitle" maxlength="50" value =<%=research.getResearchTitle() %>></td>
 								</tr>
-								
-							<%
-								}
-							%>
-							</tbody>
-					</table>
-					
-					<a href="scientificResearchWrite.jsp" class="btn btn-primary pull-right">글쓰기</a>
+								<tr>
+									<td>글 내용</td>
+									<td colspan="2"><textarea class="form-control" placeholder="글 내용" name="researchContent" maxlength="2048" style="height: 350px;"><%=research.getResearchContent() %></textarea></td>
+								</tr>
+								<tr>
+									<td style="background-color:#eee; border:none;">
+									<input type="hidden" name="userID" value="<%=userID%>">
+									<input type="hidden" name="researchID" value="<%=research.getResearchID()%>">
+									</td>
+								</tr>
+								<tr>
+									<td><h5>파일 업로드</h5></td>
+									<td>
+										<input type="file" name="researchFile" class="file">
+										<div class="input-group col-xs-12" style="padding-top:1rem;">
+											<input type="text" class="form-control input-lg" disabled placeholder="<%=research.getResearchFile() %>">
+											<span class="input-group-btn">
+												<button class="browse btn btn-primary input-lg" type="button">파일 찾기</button>
+											</span>
+										</div>
+											
+									</td>
+								</tr>
+							</tbody>	
+						</table>
+						<input type="submit" class="btn btn-primary pull-right" value="수정">
+					</form>	
 				</div>
 			</div>
 		</div>
