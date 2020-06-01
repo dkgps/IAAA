@@ -73,7 +73,7 @@ text-decoration:none;
     </nav>
 
 		<section class="container mt-5 mb-5" style="max-width: 1000px;">
-			<div class="jumbotron" style="padding-top: 20px; margin-top: 50px; height:650px;">
+			<div class="jumbotron" style="padding-top: 20px; margin-top: 50px; height:700px;">
 				<h3 style="text-align: center">학술 연구</h3>
 				<p style="text-align: center; color:grey; font-size:80%">딥스카이, 스타샷 정보, 학술지에 관련된 글만 올려주세요</p>
 				<div class="container">

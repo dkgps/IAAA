@@ -201,6 +201,27 @@ public class FreeBoardDAO {
 		return -1; //db오류
 	}
 	
+	
+	public int countReply(int freeBoardID) {
+		int count = 0;
+		String SQL = "select count(*) from boardreply where freeBoardID=?";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setInt(1, freeBoardID); 
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				count = rs.getInt(1);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return count; //db오류
+	}
+	
+	
+	
+	
 	public ArrayList<boardReply> getReply(int freeBoardID){
 		String SQL = "SELECT * from boardReply where freeBoardID = ? order by replyID";
 		ArrayList<boardReply> replylist = new ArrayList<boardReply>();
@@ -244,6 +265,7 @@ public class FreeBoardDAO {
 				
 		return null;		
 	}
+	
 	public int delete(int replyID) {
 		String SQL = "delete from boardreply where replyID=?";
 		try {

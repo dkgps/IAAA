@@ -63,7 +63,7 @@ margin-left:1.5rem;
     </nav>
 
 		<section class="container mt-5 mb-5" style="max-width: 1000px;">
-			<div class="jumbotron" style="padding-top: 20px; margin-top: 50px; height:650px;">
+			<div class="jumbotron" style="padding-top: 20px; margin-top: 50px; height:700px;">
 				<h3 style="text-align: center">자유게시판</h3>
 				<div class="container">
 					<div class="row">
@@ -89,7 +89,7 @@ margin-left:1.5rem;
 							%>
 								<tr>
 									<td><%= list.get(i).getFreeBoardID() %></td>
-									<td><a href="freeBoardView.jsp?freeBoardID=<%=list.get(i).getFreeBoardID()%>"><%=list.get(i).getFreeBoardTitle() %></a></td>
+									<td><a href="freeBoardView.jsp?freeBoardID=<%=list.get(i).getFreeBoardID()%>"><%=list.get(i).getFreeBoardTitle() %> (<%=freeBoardDAO.countReply(list.get(i).getFreeBoardID()) %>)</a></td>
 									<td><%= list.get(i).getUserID() %></td>
 									<td style="font-size: 80%"><%= list.get(i).getFreeBoardDate().substring(0,11)+list.get(i).getFreeBoardDate().substring(11,13)+"시"+ list.get(i).getFreeBoardDate().substring(14,16)+"분"%></td>
 								</tr>

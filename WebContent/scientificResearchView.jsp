@@ -90,14 +90,14 @@ text-decoration:none;
             </div>
     </nav>
 	<section class="container mt-5 mb-5" style="max-width: 1000px;">
-		<div class="jumbotron" style="padding-top: 20px; margin-top: 50px; height:auto; ">
+		<div class="jumbotron" style="padding-top: 20px; margin-top: 50px; height:700px; ">
 			<div class="container">
-				<div class="row" style="padding-top:30px; ">
+				<div class="row" style="padding-top:30px;">
 					
 						<table class="table table-striped" style="text-align: center; border: 1px solid #ddd">
 							<thead>
 								<tr>
-									<th colspan="5" style="background-color: #eee; text-align:center;">게시물 보기</th>
+									<th colspan="5" style="background-color: #eee; text-align:center; border: 1px solid #ddd; ">게시물 보기</th>
 								</tr>	
 							</thead>
 							<tbody>
