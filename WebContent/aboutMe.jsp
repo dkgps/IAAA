@@ -91,7 +91,7 @@ margin-left:1.5rem;
 							%>
 								<tr>
 									<td><%=list.get(i).getAboutMeID() %></td>
-									<td><a href="aboutMeView.jsp?aboutMeID=<%=list.get(i).getAboutMeID()%>"><%=list.get(i).getAboutMeTitle() %></a></td>
+									<td><a href="aboutMeView.jsp?aboutMeID=<%=list.get(i).getAboutMeID()%>"><%=list.get(i).getAboutMeTitle() %> (<%=aboutMeDAO.countReply(list.get(i).getAboutMeID()) %>)</a></td>
 									<td><%=list.get(i).getUserID() %></td>
 									<td style="font-size: 80%"><%=list.get(i).getAboutMeDate().substring(0,11)+list.get(i).getAboutMeDate().substring(11,13)+"시"+list.get(i).getAboutMeDate().substring(14,16)+"분" %></td>
 									<td><%=list.get(i).getAboutMeHit() %></td>

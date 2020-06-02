@@ -105,15 +105,14 @@ margin-left:1.5rem;
 									<td colspan="2"><h5><%=aboutMeDTO.getAboutMeHit()+1%></h5></td>
 								</tr>
 								<tr>
-									<td>글 내용</td>
-									<td colspan="4">
-									<textarea class="form-control" placeholder="글 내용" name="aboutMeContent" maxlength="2048" style="height: 450px;" readonly><%=aboutMeDTO.getAboutMeContent() %>
+									<td colspan="5">
+									<textarea class="form-control" placeholder="글 내용" name="aboutMeContent" maxlength="2048" style="height: 550px; border:none; background-color:#f9f9f9; padding:2rem;" readonly><%=aboutMeDTO.getAboutMeContent() %>
 									</textarea></td>
 								</tr>
 							</tbody>	
 						</table>
 						</div>
-						<br>
+						
 						<a href="aboutMe.jsp" class="btn btn-success pull-left">목록</a>
 						<%
 									if(userID != null && userID.equals(aboutMeDTO.getUserID())){

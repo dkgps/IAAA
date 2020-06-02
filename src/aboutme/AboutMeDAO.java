@@ -230,5 +230,21 @@ public class AboutMeDAO {
 		return -1; 
 	}
 	
+	public int countReply(int aboutMeID) {
+		int count = 0;
+		String SQL = "select count(*) from aboutmereply where aboutMeID=?";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setInt(1, aboutMeID); 
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				count = rs.getInt(1);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return count; //db오류
+	}
 	
 }
