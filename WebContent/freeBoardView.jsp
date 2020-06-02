@@ -124,7 +124,7 @@ margin-left:1.5rem;
 					<br>
 					<div class="container">
 						<div class="row" style="border: 1px solid #ddd;">
-						<form method="post" action= "boardReplyWrite.jsp">
+						<form method="post" action= "freeBoardReplyWrite.jsp">
 							<h3>&nbsp; 댓글</h3>
 							<table class="table table-striped" style="text-align: center;">	
 	
@@ -158,7 +158,7 @@ margin-left:1.5rem;
 									if(userID != null && userID.equals(replylist.get(i).getUserID())){
 								%>
 									<td style="width:10%;">
-									<a onclick="return confirm('삭제하시겠습니까?')" href="./boardReplyDeleteAction.jsp?freeBoardID=<%=freeBoardID %>&replyID=<%= replylist.get(i).getReplyID() %>" class="btn btn-danger pull-right" style="width:60%; font-size:70%;">삭제</a>
+									<a onclick="return confirm('삭제하시겠습니까?')" href="./freeBoardReplyDeleteAction.jsp?freeBoardID=<%=freeBoardID %>&replyID=<%= replylist.get(i).getReplyID() %>" class="btn btn-danger pull-right" style="width:60%; font-size:70%;">삭제</a>
 								<%
 									}
 								%>
