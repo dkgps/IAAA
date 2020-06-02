@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import = "freeboard.FreeBoard" %>
-<%@ page import = "notice.NoticeDAO" %>
+<%@ page import="aboutme.AboutMeDTO" %>
+<%@ page import="aboutme.AboutMeDAO" %>
 <%@ page import = "java.util.ArrayList" %>
 <%@ page import = "java.io.PrintWriter" %>
 <!DOCTYPE html>
@@ -25,6 +25,9 @@ margin-left:1.5rem;
 	if(session.getAttribute("userID")!=null){
 		userID = (String) session.getAttribute("userID");
 	}
+	
+	
+	
 	
 	int pageNumber = 1;
 	if(request.getParameter("pageNumber")!=null){
@@ -63,7 +66,7 @@ margin-left:1.5rem;
     </nav>
 
 		<section class="container mt-5 mb-5" style="max-width: 1000px;">
-			<div class="jumbotron" style="padding-top: 20px; margin-top: 50px; height:650px;">
+			<div class="jumbotron" style="padding-top: 20px; margin-top: 50px; height:700px;">
 				<h3 style="text-align: center">나를 소개합니다!</h3>
 				<div class="container">
 					<div class="row">
@@ -73,26 +76,34 @@ margin-left:1.5rem;
 							<thead>
 								<tr>
 									<th style="background-color: #eee; text-align:center;">번호</th>
-									<th style="background-color: #eee; text-align:center; width:65%;">제목</th>
+									<th style="background-color: #eee; text-align:center; width:60%;">제목</th>
 									<th style="background-color: #eee; text-align:center;">작성자</th>
 									<th style="background-color: #eee; text-align:center;">작성일</th>
 									<th style="background-color: #eee; text-align:center;width:7%;">조회수</th>
 								</tr>	
 							</thead>
 							<tbody>
-								<tr>
-									<td>1</td>
-									<td>안녕하세요</td>
-									<td>홍길동</td>
-									<td>2020-05-26</td>
-									<td>15</td>
-								</tr>
+							<%
 								
+								AboutMeDAO aboutMeDAO = new AboutMeDAO();
+								ArrayList<AboutMeDTO> list = aboutMeDAO.getList(pageNumber);
+								for(int i=0; i<list.size(); i++){
+							%>
+								<tr>
+									<td><%=list.get(i).getAboutMeID() %></td>
+									<td><a href="aboutMeView.jsp?aboutMeID=<%=list.get(i).getAboutMeID()%>"><%=list.get(i).getAboutMeTitle() %></a></td>
+									<td><%=list.get(i).getUserID() %></td>
+									<td style="font-size: 80%"><%=list.get(i).getAboutMeDate().substring(0,11)+list.get(i).getAboutMeDate().substring(11,13)+"시"+list.get(i).getAboutMeDate().substring(14,16)+"분" %></td>
+									<td><%=list.get(i).getAboutMeHit() %></td>
+								</tr>
+							<%
+								}
+							%>	
 							
 							</tbody>
 					</table>
 					
-					<a href="freeBoardWrite.jsp" class="btn btn-primary pull-right">글쓰기</a>
+					<a href="aboutMeWrite.jsp" class="btn btn-primary pull-right">글쓰기</a>
 				</div>
 			</div>
 		</div>

@@ -244,27 +244,8 @@ public class FreeBoardDAO {
 		return replylist; // 첫번째 게시글
 
 	}
-	public boardReply getBoardReply(int freeBoardID) {
-		String SQL = "select * from boardreply where freeBoardID = ?";
-		try {
-			PreparedStatement pstmt = conn.prepareStatement(SQL);
-			pstmt.setInt(1, freeBoardID);
-			rs = pstmt.executeQuery();
-			if(rs.next()) {
-				boardReply boardreply = new boardReply();
-				boardreply.setReplyID(rs.getInt(1));
-				boardreply.setReplyDate(rs.getString(2));
-				boardreply.setFreeBoardID(rs.getInt(3));
-				boardreply.setUserID(rs.getString(4));
-				boardreply.setReplyContent(rs.getString(5));
-				return boardreply;
-			}
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-				
-		return null;		
-	}
+		
+	
 	
 	public int delete(int replyID) {
 		String SQL = "delete from boardreply where replyID=?";

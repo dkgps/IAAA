@@ -1,9 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import = "freeboard.FreeBoard" %>
-<%@ page import = "freeboard.FreeBoardDAO" %>
-<%@ page import = "java.util.ArrayList" %>
-<%@ page import = "java.io.PrintWriter" %>
+<%@ page import="java.io.PrintWriter" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,11 +10,11 @@
 <link rel="stylesheet" href="css/nav.css">
 <style>
 li{
-	margin-left:1.5rem;
+margin-left:1.5rem;
 }
 
 </style>
-<title>공지사항</title>
+<title>자기 소개 글 작성</title>
 </head>
 <body>
 <%
@@ -26,9 +23,12 @@ li{
 		userID = (String) session.getAttribute("userID");
 	}
 	
-	int pageNumber = 1;
-	if(request.getParameter("pageNumber")!=null){
-		pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+	if(userID==null){
+		PrintWriter script = response.getWriter();
+		script.println("<script>");
+		script.println("alert('로그인을 해주세요')");
+		script.println("location.href='login.jsp'");
+		script.println("</script>");
 	}
 
 %>
@@ -51,8 +51,8 @@ li{
                     	<li class="nav-item"><a class="nav-link js-scroll-trigger" href="photo2.jsp">PHOTO 2</a></li>
                     	<li class="nav-item"><a class="nav-link js-scroll-trigger" href="observation.jsp">Observation</a></li>
                     	<li class="nav-item"><a class="nav-link js-scroll-trigger" href="scientificResearch.jsp">Research</a></li>
-                    	<li class="nav-item"><a class="nav-link js-scroll-trigger" href="freeBoard.jsp" style="color: #fed136;">FreeBoard</a></li>
-                    	<li class="nav-item"><a class="nav-link js-scroll-trigger" href="aboutMe.jsp">About Me</a></li>	
+                    	<li class="nav-item"><a class="nav-link js-scroll-trigger" href="freeBoard.jsp">FreeBoard</a></li>
+                    	<li class="nav-item"><a class="nav-link js-scroll-trigger" href="aboutMe.jsp" style="color: #fed136;">About Me</a></li>	
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="logoutAction.jsp">Logout</a></li>
 <%
 	}
@@ -62,56 +62,41 @@ li{
             </div>
     </nav>
 
-		<section class="container mt-5 mb-5" style="max-width: 1000px;">
-			<div class="jumbotron" style="padding-top: 20px; margin-top: 50px; height:700px;">
-				<h3 style="text-align: center">자유게시판</h3>
-				<div class="container">
-					<div class="row">
-						
-						<br>
+	<section class="container mt-5 mb-5" style="max-width: 1000px;">
+		<div class="jumbotron" style="padding-top: 30px; margin-top: 50px; height:700px;">
+			<div class="container">
+				<div class="row" style="padding-top:30px;">
+					<form method="post" action="aboutMeWriteAction.jsp">
 						<table class="table table-striped" style="text-align: center; border: 1px solid #ddd">
 							<thead>
 								<tr>
-									<th style="background-color: #eee; text-align:center;">번호</th>
-									<th style="background-color: #eee; text-align:center; width:65%;">제목</th>
-									<th style="background-color: #eee; text-align:center;">작성자</th>
-									<th style="background-color: #eee; text-align:center;">작성일</th>
-
+									<th colspan="2" style="background-color: #eee; text-align:center;">자기 소개 글쓰기</th>
 								</tr>	
 							</thead>
 							<tbody>
-							<%
-								FreeBoardDAO freeBoardDAO = new FreeBoardDAO();
-								ArrayList<FreeBoard> list = freeBoardDAO.getList(pageNumber);
-								 
-								for(int i=0; i<list.size(); i++){
-							
-							%>
 								<tr>
-									<td><%= list.get(i).getFreeBoardID() %></td>
-									<td><a href="freeBoardView.jsp?freeBoardID=<%=list.get(i).getFreeBoardID()%>"><%=list.get(i).getFreeBoardTitle() %> (<%=freeBoardDAO.countReply(list.get(i).getFreeBoardID()) %>)</a></td>
-									<td><%= list.get(i).getUserID() %></td>
-									<td style="font-size: 80%"><%= list.get(i).getFreeBoardDate().substring(0,11)+list.get(i).getFreeBoardDate().substring(11,13)+"시"+ list.get(i).getFreeBoardDate().substring(14,16)+"분"%></td>
+									<td><input type="text" class="form-control" placeholder="글 제목" name="aboutMeTitle" maxlength="50"></td>
 								</tr>
-								
-							<%
-								}
-							%>
-							</tbody>
-					</table>
-					<%
-						if(pageNumber !=1){
-					%>
-						<a href="freeBoard.jsp?pageNumber=<%=pageNumber -1 %>" class="btn btn-success btn-arraw-left">이전</a>
-					<%
-						} 
-						if(freeBoardDAO.nextPage(pageNumber+1)){
-					%>	
-						<a href="freeBoard.jsp?pageNumber=<%=pageNumber +1 %>" class="btn btn-success btn-arraw-right">다음</a>
-					<%
-						}
-					%>
-					<a href="freeBoardWrite.jsp" class="btn btn-primary pull-right">글쓰기</a>
+								<tr>
+									<td>
+									<textarea class="form-control" placeholder="글 내용" name="aboutMeContent" maxlength="2048" style="height: 450px;">이름 : 
+																																						학과 :
+																																						생년월일 :
+																																						지금 사는 곳은? :
+																																						기숙사, 자취라면 고향은? :
+																																						Facebook/Instagram :
+																																						취미/특기 :
+																																						어떤 성격? :
+																																						가입한 동기 :
+																																						IAAA에서 하고 싶은 것! :
+																																						하고싶은말~ :
+									</textarea></td>
+								</tr>
+							</tbody>	
+						</table>
+						<a href="aboutMe.jsp" class="btn btn-success pull-left">목록</a>
+						<input type="submit" class="btn btn-primary pull-right" value="글쓰기">
+					</form>	
 				</div>
 			</div>
 		</div>
