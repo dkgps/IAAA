@@ -194,6 +194,45 @@ public class ObservationDAO {
 		return -1; // 데이터베이스 오류
 	}
 	
-
+	
+	public ArrayList<ObservationDTO> getList(String observationDivide, String searchType, String search, int pageNumber){
+		if(observationDivide.equals("전체")) {
+			observationDivide = "";
+		}
+		ArrayList<ObservationDTO> observationList = null;
+		String SQL = "";
+		PreparedStatement pstmt = null;
+		try {
+			if(searchType.equals("최신순")) {
+				SQL = "select * from observation where observationDivide like ? and concat(observationTitle, observationContent) like " +
+			"? order by observationID desc limit " + (pageNumber-1) * 8 + "," + (pageNumber-1) * 8 +9;
+			}else if(searchType.equals("추천순")){
+				SQL = "select * from observation where observationDivide like ? and concat(observationTitle, observationContent) like " +
+				"? order by likeCount desc limit " + (pageNumber-1) * 8 + "," + (pageNumber-1) * 8 +9;		
+			}
+			
+			pstmt = conn.prepareStatement(SQL);
+			pstmt.setString(1, "%"+observationDivide+"%");
+			pstmt.setString(2, "%"+search+"%");
+			rs = pstmt.executeQuery();
+			observationList = new ArrayList<ObservationDTO>();
+			while(rs.next()) {
+				ObservationDTO observationDTO = new ObservationDTO();
+				observationDTO.setObservationID(rs.getInt(1));
+				observationDTO.setUserID(rs.getString(2));
+				observationDTO.setObservationYear(rs.getInt(3));
+				observationDTO.setObservationDivide(rs.getString(4));
+				observationDTO.setObservationTitle(rs.getString(5));
+				observationDTO.setObservationContent(rs.getString(6));
+				observationDTO.setObservationDate(rs.getString(7));
+				observationDTO.setLikeCount(rs.getInt(8));
+				observationList.add(observationDTO);
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return observationList;
+	}
 	
 }

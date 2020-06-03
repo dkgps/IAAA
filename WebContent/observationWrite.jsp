@@ -25,32 +25,14 @@ color:blue;
 </head>
 <body>
 <%
-	request.setCharacterEncoding("UTF-8");
+	
 
 	String userID = null;
 	if(session.getAttribute("userID")!=null){
 		userID = (String) session.getAttribute("userID");
 	}
 	
-	String lectureDivide = "전체";
-	String searchType = "최신순";
-	String search ="";
 	
-	if(request.getParameter("lectureDivide") != null) {
-		lectureDivide = request.getParameter("lectureDivide");
-	}
-	if(request.getParameter("searchType") != null) {
-		searchType = request.getParameter("searchType");
-	}
-	if(request.getParameter("search") != null) {
-		search = request.getParameter("search");
-	}
-	
-	int pageNumber = 1;
-	if(request.getParameter("pageNumber")!=null){
-		pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
-	}
-
 %>
 	<nav class="navbar navbar-expand-lg navbar-dark" id="mainNav">
             <div class="container">

@@ -4,6 +4,7 @@
 <%@ page import="observation.ObservationDAO" %>
 <%@ page import = "java.util.ArrayList" %>
 <%@ page import = "java.io.PrintWriter" %>
+<%@ page import = "java.net.URLEncoder" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,17 +25,32 @@ color:blue;
 <title>관측 후기 게시판</title>
 </head>
 <body>
-<%
+<%	
+	request.setCharacterEncoding("UTF-8");
 	String userID = null;
 	if(session.getAttribute("userID")!=null){
 		userID = (String) session.getAttribute("userID");
+	}
+	
+	String observationDivide = "전체";
+	String searchType = "최신순";
+	String search ="";
+	
+	if(request.getParameter("observationDivide") != null) {
+		observationDivide = request.getParameter("observationDivide");
+	}
+	if(request.getParameter("searchType") != null) {
+		searchType = request.getParameter("searchType");
+	}
+	if(request.getParameter("search") != null) {
+		search = request.getParameter("search");
 	}
 	
 	int pageNumber = 1;
 	if(request.getParameter("pageNumber")!=null){
 		pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
 	}
-	
+
 	
 %>
 	<nav class="navbar navbar-expand-lg navbar-dark" id="mainNav">
@@ -76,13 +92,13 @@ color:blue;
 						<br>
 						<select name="observationDivide" class="form-control mx-1 mt-2">
 							<option value="전체">전체</option>
-							<option value="정관">정관</option>
-							<option value="소관">소관</option>
-							<option value="기타">기타</option>
+							<option value="정관" <%if(observationDivide.equals("정관")) out.println("selected"); %>>정관</option>
+							<option value="소관" <%if(observationDivide.equals("교양")) out.println("selected"); %>>소관</option>
+							<option value="기타" <%if(observationDivide.equals("기타")) out.println("selected"); %>>기타</option>
 						</select>
 						<select name="searchType" class="form-control mx-1 mt-3">
 							<option value="최신순">최신순</option>
-							<option value="추천순">추천순</option>
+							<option value="추천순" <%if(searchType.equals("추천순")) out.println("selected"); %>>추천순</option>
 						</select>
 						<input type="text" name="search" class="form-control mx-1 mt-2" placeholder="내용을 입력하세요." style="width: 350px;">
 						<button type="submit" class="btn btn-primary mx-1 mt-2">검색</button>
@@ -107,10 +123,10 @@ color:blue;
 								
 							<%
 								ObservationDAO observationDAO = new ObservationDAO();
-								ArrayList<ObservationDTO> list = observationDAO.getList(pageNumber);
+								ArrayList<ObservationDTO> list = observationDAO.getList(observationDivide, searchType, search, pageNumber);
 	
 								for(int i=0; i<list.size(); i++){
-							
+									if(i==8) break;
 							%>
 								<tr>
 									<td><%=list.get(i).getObservationID()%></td>
@@ -130,20 +146,33 @@ color:blue;
 					</table>
 					
 					<a href="observationWrite.jsp" class="btn btn-primary pull-right">글쓰기</a>
-				<% if(pageNumber!=1){
+				<% if(pageNumber<=1){
 					
 				%>
-					<a href="observation.jsp?pageNumber=<%=pageNumber -1 %>" class="btn btn-success btn-arraw-left">이전</a>
+					<!-- <a class="page-link disabled">이전</a> -->
 				<%
-				}
+					}else{
 				%>
-				<% if(observationDAO.nextPage(pageNumber+1)){
+					<a class="btn btn-primary" href="./observation.jsp?observationDivide=<%=URLEncoder.encode(observationDivide, "UTF-8") %>&searchType=<%=URLEncoder.encode(searchType, "UTF-8") %>&search=
+					<%=URLEncoder.encode(search, "UTF-8") %>&pageNumber=<%= pageNumber-1 %>">이전</a>
+				<% 
+					}
+				%>
+				
+				
+				<% if(list.size()<6){
 					
 				%>
-					<a href="observation.jsp?pageNumber=<%=pageNumber +1 %>" class="btn btn-success btn-arraw-right">다음</a>
+					<!-- <a class="page-link disabled">다음</a> -->
 				<%
-				}
+					}else{
 				%>
+					<a class="btn btn-primary" href="./observation.jsp?observationDivide=<%=URLEncoder.encode(observationDivide, "UTF-8") %>&searchType=<%=URLEncoder.encode(searchType, "UTF-8") %>&search=
+					<%=URLEncoder.encode(search, "UTF-8") %>&pageNumber=<%= pageNumber+1 %>">다음</a>
+				<% 
+					}
+				%>
+				
 				</div>
 			</div>
 		</div>
