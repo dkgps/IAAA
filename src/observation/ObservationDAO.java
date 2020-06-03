@@ -164,7 +164,7 @@ public class ObservationDAO {
 		return false;
 	}
 	
-	
+	/* 추천기능 */
 	public int like(String userID, int observationID, String userIP) {
 		String SQL = "insert into likey values (?,?,?)";
 		try {

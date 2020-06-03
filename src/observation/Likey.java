@@ -4,6 +4,7 @@ public class Likey {
 	private String userID;
 	private int observationID;
 	private String userIP;
+	
 	public String getUserID() {
 		return userID;
 	}
