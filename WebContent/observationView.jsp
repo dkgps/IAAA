@@ -21,21 +21,33 @@ color:blue;
 }
 
 </style>
-<title>관측 후기 게시판</title>
+<title>관측 후기 글쓰기</title>
 </head>
 <body>
 <%
+	request.setCharacterEncoding("UTF-8");
+
 	String userID = null;
 	if(session.getAttribute("userID")!=null){
 		userID = (String) session.getAttribute("userID");
 	}
 	
-	int pageNumber = 1;
-	if(request.getParameter("pageNumber")!=null){
-		pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+	int observationID= 0;
+	if(request.getParameter("observationID")!=null){
+		observationID = Integer.parseInt(request.getParameter("observationID"));
 	}
 	
+	if(observationID==0){
+		PrintWriter script = response.getWriter();
+		script.println("<script>");
+		script.println("alert('유효하지 않은 글입니다.')");
+		script.println("history.back();");
+		script.println("</script>");	
+	}
 	
+	ObservationDAO observationDAO = new ObservationDAO();
+	ObservationDTO observationDTO = observationDAO.getObservation(observationID);
+
 %>
 	<nav class="navbar navbar-expand-lg navbar-dark" id="mainNav">
             <div class="container">
@@ -69,83 +81,61 @@ color:blue;
 
 		<section class="container mt-5 mb-5" style="max-width: 1000px;">
 			<div class="jumbotron" style="padding-top: 20px; margin-top: 50px; height:700px;">
-				<h3 style="text-align: center">관측 후기를 들려주세요!</h3>
-				<p style="text-align: center; color:grey; font-size:80%">글 제목 양식: 0000년 0학기 백마고지 정기관측회</p>
+				
+	
 				<div class="container">
-					<form method="get" action="./observation.jsp" class="form-inline mt-3">
-						<br>
-						<select name="observationDivide" class="form-control mx-1 mt-2">
-							<option value="전체">전체</option>
-							<option value="정관">정관</option>
-							<option value="소관">소관</option>
-							<option value="기타">기타</option>
-						</select>
-						<select name="searchType" class="form-control mx-1 mt-3">
-							<option value="최신순">최신순</option>
-							<option value="추천순">추천순</option>
-						</select>
-						<input type="text" name="search" class="form-control mx-1 mt-2" placeholder="내용을 입력하세요." style="width: 350px;">
-						<button type="submit" class="btn btn-primary mx-1 mt-2">검색</button>
-					</form>
+					<div class="row" style="padding-top:30px;">
 					<br>
-					<div class="row">
-						
-						<br>
 						<table class="table table-striped" style="text-align: center; border: 1px solid #ddd">
 							<thead>
 								<tr>
-									<th style="background-color: #eee; text-align:center;">번호</th>
-									<th style="background-color: #eee; text-align:center;">구분</th>
-									<th style="background-color: #eee; text-align:center; width:60%;">제목</th>
-									<th style="background-color: #eee; text-align:center;">작성자</th>
-									<th style="background-color: #eee; text-align:center;">작성일</th>
-									<th style="background-color: #eee; text-align:center;">추천수</th>
-									
+									<th colspan="6" style="background-color: #eee; text-align:center; border: 1px solid #ddd; "><h3 style="text-align: center">관측 후기</h3></th>
 								</tr>	
 							</thead>
 							<tbody>
-								
-							<%
-								ObservationDAO observationDAO = new ObservationDAO();
-								ArrayList<ObservationDTO> list = observationDAO.getList(pageNumber);
-	
-								for(int i=0; i<list.size(); i++){
-							
-							%>
-								<tr>
-									<td><%=list.get(i).getObservationID()%></td>
-									<td><%=list.get(i).getObservationDivide()%></td>
-									<td><a href="observationView.jsp?observationID=<%=list.get(i).getObservationID()%>"><%=list.get(i).getObservationTitle()%></a></td>
-									<td><%=list.get(i).getUserID()%></td>
-									<td style="font-size: 80%"><%=list.get(i).getObservationDate().substring(0,11)+list.get(i).getObservationDate().substring(11,13)+"시"+list.get(i).getObservationDate().substring(14,16)+"분" %></td>
-									<td style="color:red;"><%=list.get(i).getLikeCount()%></td>
-								</tr>
-							<%
-								}
-							%>
-								
+							<tr> 
+								<td style="border: 1px solid #ddd; font-weight: bold; ">연도</td>
+								<td><%=observationDTO.getObservationYear() %></td>
 								
 							
-							</tbody>
-					</table>
+								<td style="border: 1px solid #ddd; font-weight: bold;">관측 구분</td>
+								<td><%=observationDTO.getObservationDivide() %></td>
+								
+		
+								<td style="border: 1px solid #ddd; font-weight: bold;">작성자</td>
+								<td><%=observationDTO.getUserID() %></td>
+								
+							</tr>
+						
+							<tr>
+								<td colspan="2" style="border: 1px solid #ddd; font-weight: bold;">제목</td>
+								<td colspan="3"  style="text-align:left; padding-left:3rem;"><%=observationDTO.getObservationTitle() %></td>
+								<td colspan="1">추천수: <%=observationDTO.getLikeCount() %>&nbsp;&nbsp;&nbsp;&nbsp;<a href="observationLikeAction.jsp?observationID=<%=observationID %>" class="btn btn-warning">추천</a></td>
+								
+							</tr>
+						
+							<tr style="height:350px; text-align:left;">
+								
+								<td colspan="6" style=" padding: 2rem;"><%=observationDTO.getObservationContent() %></td>
+								
+							</tr>
+							</tbody>	
+						</table>
+					</div>	
+					<br>
 					
-					<a href="observationWrite.jsp" class="btn btn-primary pull-right">글쓰기</a>
-				<% if(pageNumber!=1){
+				
+				</div>	
+				<a href="observation.jsp" class="btn btn-success pull-left" >목록</a>
 					
-				%>
-					<a href="observation.jsp?pageNumber=<%=pageNumber -1 %>" class="btn btn-success btn-arraw-left">이전</a>
-				<%
-				}
-				%>
-				<% if(observationDAO.nextPage(pageNumber+1)){
-					
-				%>
-					<a href="observation.jsp?pageNumber=<%=pageNumber +1 %>" class="btn btn-success btn-arraw-right">다음</a>
-				<%
-				}
-				%>
-				</div>
-			</div>
+								<%
+									if(userID != null && userID.equals(observationDTO.getUserID())){
+								%>
+									<a href="observationUpdate.jsp?observationID=<%= observationID %>" class="btn btn-primary pull-right">수정</a>
+									<a onclick="return confirm('삭제하시겠습니까?')" href="observationDeleteAction.jsp?observationID=<%=observationID %>" class="btn btn-danger pull-right">삭제</a>
+								<%
+									}
+								%>	
 		</div>
 	</section>
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>

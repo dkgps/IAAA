@@ -21,21 +21,36 @@ color:blue;
 }
 
 </style>
-<title>관측 후기 게시판</title>
+<title>관측 후기 글쓰기</title>
 </head>
 <body>
 <%
+	request.setCharacterEncoding("UTF-8");
+
 	String userID = null;
 	if(session.getAttribute("userID")!=null){
 		userID = (String) session.getAttribute("userID");
+	}
+	
+	String lectureDivide = "전체";
+	String searchType = "최신순";
+	String search ="";
+	
+	if(request.getParameter("lectureDivide") != null) {
+		lectureDivide = request.getParameter("lectureDivide");
+	}
+	if(request.getParameter("searchType") != null) {
+		searchType = request.getParameter("searchType");
+	}
+	if(request.getParameter("search") != null) {
+		search = request.getParameter("search");
 	}
 	
 	int pageNumber = 1;
 	if(request.getParameter("pageNumber")!=null){
 		pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
 	}
-	
-	
+
 %>
 	<nav class="navbar navbar-expand-lg navbar-dark" id="mainNav">
             <div class="container">
@@ -69,83 +84,57 @@ color:blue;
 
 		<section class="container mt-5 mb-5" style="max-width: 1000px;">
 			<div class="jumbotron" style="padding-top: 20px; margin-top: 50px; height:700px;">
-				<h3 style="text-align: center">관측 후기를 들려주세요!</h3>
-				<p style="text-align: center; color:grey; font-size:80%">글 제목 양식: 0000년 0학기 백마고지 정기관측회</p>
-				<div class="container">
-					<form method="get" action="./observation.jsp" class="form-inline mt-3">
-						<br>
-						<select name="observationDivide" class="form-control mx-1 mt-2">
-							<option value="전체">전체</option>
-							<option value="정관">정관</option>
-							<option value="소관">소관</option>
-							<option value="기타">기타</option>
-						</select>
-						<select name="searchType" class="form-control mx-1 mt-3">
-							<option value="최신순">최신순</option>
-							<option value="추천순">추천순</option>
-						</select>
-						<input type="text" name="search" class="form-control mx-1 mt-2" placeholder="내용을 입력하세요." style="width: 350px;">
-						<button type="submit" class="btn btn-primary mx-1 mt-2">검색</button>
-					</form>
+				<h2 style="text-align: center">관측 후기 작성</h2>
+				<form action="observationWriteAction.jsp" method="post">
+					<div class="container">
 					<br>
-					<div class="row">
+					
+						<div class="form-row">
+							<div class="form-group col-sm-2"> 
+								<label>연도</label>
+								<select name="observationYear" class="form-control">
+									<option value="2011">2011</option>
+									<option value="2012">2012</option>
+									<option value="2013">2013</option>
+									<option value="2014">2014</option>
+									<option value="2015">2015</option>
+									<option value="2016">2016</option>
+									<option value="2017">2017</option>
+									<option value="2018">2018</option>
+									<option value="2019">2019</option>
+									<option value="2020" selected>2020</option>
+									<option value="2021">2021</option>
+									<option value="2022">2022</option>
+									<option value="2023">2023</option>
+								</select>
+							</div>
+							
+							<div class="form-group col-sm-2">
+								<label>관측 구분</label>
+								<select name="observationDivide" class="form-control">
+									<option value="정관" selected>정관</option>
+									<option value="소관" >소관</option>
+									<option value="기타">기타</option>
+								</select>
+							</div>
 						
-						<br>
-						<table class="table table-striped" style="text-align: center; border: 1px solid #ddd">
-							<thead>
-								<tr>
-									<th style="background-color: #eee; text-align:center;">번호</th>
-									<th style="background-color: #eee; text-align:center;">구분</th>
-									<th style="background-color: #eee; text-align:center; width:60%;">제목</th>
-									<th style="background-color: #eee; text-align:center;">작성자</th>
-									<th style="background-color: #eee; text-align:center;">작성일</th>
-									<th style="background-color: #eee; text-align:center;">추천수</th>
-									
-								</tr>	
-							</thead>
-							<tbody>
-								
-							<%
-								ObservationDAO observationDAO = new ObservationDAO();
-								ArrayList<ObservationDTO> list = observationDAO.getList(pageNumber);
-	
-								for(int i=0; i<list.size(); i++){
-							
-							%>
-								<tr>
-									<td><%=list.get(i).getObservationID()%></td>
-									<td><%=list.get(i).getObservationDivide()%></td>
-									<td><a href="observationView.jsp?observationID=<%=list.get(i).getObservationID()%>"><%=list.get(i).getObservationTitle()%></a></td>
-									<td><%=list.get(i).getUserID()%></td>
-									<td style="font-size: 80%"><%=list.get(i).getObservationDate().substring(0,11)+list.get(i).getObservationDate().substring(11,13)+"시"+list.get(i).getObservationDate().substring(14,16)+"분" %></td>
-									<td style="color:red;"><%=list.get(i).getLikeCount()%></td>
-								</tr>
-							<%
-								}
-							%>
-								
-								
-							
-							</tbody>
-					</table>
+							<div class="form-group col-sm-8">
+								<label>제목</label>
+								<input type="text" name="observationTitle" class="form-control" maxlength="30">
+							</div>
+						</div>
+						<div class="form-group" style="padding:1.5rem;">
+							<label>내용</label>
+							<textarea name="observationContent" class="form-control" maxlength="2048" style="height:350px;"></textarea>
+						</div>
+					</div>	
+					<br>
+					<a href="observation.jsp" class="btn btn-success pull-left" style="margin-left:3rem;">목록</a>
+					<input type="submit" class="btn btn-primary pull-right" style="margin-right:3rem;" value="글쓰기">
+				</form>
+				
 					
-					<a href="observationWrite.jsp" class="btn btn-primary pull-right">글쓰기</a>
-				<% if(pageNumber!=1){
 					
-				%>
-					<a href="observation.jsp?pageNumber=<%=pageNumber -1 %>" class="btn btn-success btn-arraw-left">이전</a>
-				<%
-				}
-				%>
-				<% if(observationDAO.nextPage(pageNumber+1)){
-					
-				%>
-					<a href="observation.jsp?pageNumber=<%=pageNumber +1 %>" class="btn btn-success btn-arraw-right">다음</a>
-				<%
-				}
-				%>
-				</div>
-			</div>
 		</div>
 	</section>
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
