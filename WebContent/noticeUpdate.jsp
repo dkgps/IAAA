@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.io.PrintWriter" %>
+<%@ page import = "notice.Notice" %>
+<%@ page import = "notice.NoticeDAO" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,7 +11,7 @@
 <link rel="stylesheet" href="css/bootstrap.css">
 <link rel="stylesheet" href="css/nav.css">
 
-<title>공지사항 글쓰기</title>
+<title>공지사항 글 수정</title>
 </head>
 <body>
 <%
@@ -31,6 +33,22 @@
 		script.println("location.href='notice.jsp'");
 		script.println("</script>");
 	}
+	
+	int noticeID = 0;
+	if(request.getParameter("noticeID")!=null){
+		noticeID = Integer.parseInt(request.getParameter("noticeID"));
+	}
+	
+	if(noticeID==0){
+		PrintWriter script = response.getWriter();
+		script.println("<script>");
+		script.println("alert('유효하지 않은 글입니다.')");
+		script.println("location.href='notice.jsp'");
+		script.println("</script>");
+	}
+	
+	Notice notice = new Notice();
+	notice = new NoticeDAO().getNotice(noticeID);
 
 %>
 	<nav class="navbar navbar-expand-lg navbar-dark" id="mainNav">
@@ -68,23 +86,25 @@
 		<div class="jumbotron" style="padding-top: 20px; margin-top: 50px; height:700px;">
 			<div class="container">
 				<div class="row" style="padding-top:30px;">
-					<form method="post" action="noticeWriteAction.jsp">
+					<form method="post" action="noticeUpdateAction.jsp?noticeID=<%=noticeID%>">
 						<table class="table table-striped" style="text-align: center; border: 1px solid #ddd">
 							<thead>
 								<tr>
-									<th colspan="2" style="background-color: #eee; text-align:center;">게시판 글쓰기 양식</th>
+									<th colspan="2" style="background-color: #eee; text-align:center;">게시판 글 수정</th>
 								</tr>	
 							</thead>
 							<tbody>
 								<tr>
-									<td><input type="text" class="form-control" placeholder="글 제목" name="noticeTitle" maxlength="50"></td>
+									<td>제목</td>
+									<td><input type="text" class="form-control" placeholder="글 제목" name="noticeTitle" maxlength="100" value=<%=notice.getNoticeTitle()%>></td>
 								</tr>
 								<tr>
-									<td><textarea class="form-control" placeholder="글 내용" name="noticeContent" maxlength="2048" style="height: 350px;"></textarea></td>
+									<td>내용</td>
+									<td><textarea class="form-control" placeholder="글 내용" name="noticeContent" maxlength="2048" style="height: 350px;"><%=notice.getNoticeContent() %></textarea></td>
 								</tr>
 							</tbody>	
 						</table>
-						<input type="submit" class="btn btn-primary pull-right" value="글쓰기">
+						<input type="submit" class="btn btn-primary pull-right" value="수정">
 					</form>	
 				</div>
 			</div>

@@ -28,6 +28,20 @@
 			script.println("location.href='login.jsp'");
 			script.println("</script>");	
 		}else{
+			int noticeID = 0;
+			if(request.getParameter("noticeID")!=null){
+				noticeID = Integer.parseInt(request.getParameter("noticeID"));
+			}
+			
+			if(noticeID==0){
+				PrintWriter script = response.getWriter();
+				script.println("<script>");
+				script.println("alert('유효하지 않은 글입니다.')");
+				script.println("location.href='notice.jsp'");
+				script.println("</script>");
+				return;
+			}
+			
 			
 			String noticeTitle = null;
 			String noticeContent = null;
@@ -47,17 +61,17 @@
 				script.println("</script>");	
 			}else{
 				NoticeDAO noticeDAO = new NoticeDAO();
-				int result = noticeDAO.write(noticeTitle,userID,noticeContent);
+				int result = noticeDAO.update(noticeID,noticeTitle,noticeContent);
 				if(result == 1){
 					PrintWriter script = response.getWriter();
 					script.println("<script>");
-					script.println("alert('글이 등록되었습니다.')");
-					script.println("location.href='notice.jsp'");
+					script.println("alert('글이 수정되었습니다.')");
+					script.println("location.href='notice.jsp?noticeID="+noticeID+"'");
 					script.println("</script>");
 				}else if(result == -1){
 					PrintWriter script = response.getWriter();
 					script.println("<script>");
-					script.println("alert('글 등록에 실패했습니다.')");
+					script.println("alert('글 수정에 실패했습니다.')");
 					script.println("history.back();");
 					script.println("</script>");
 				}

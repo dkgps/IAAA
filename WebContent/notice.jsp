@@ -68,9 +68,10 @@ margin-left:1.5rem;
             </div>
     </nav>
 
-		<section class="container mt-5 mb-5" style="max-width: 800px;">
-			<div class="jumbotron" style="padding-top: 20px; margin-top: 50px; height:650px;">
+		<section class="container mt-5 mb-5" style="max-width: 1000px;">
+			<div class="jumbotron" style="padding-top: 20px; margin-top: 50px; height:700px;">
 				<h3 style="text-align: center">공지사항</h3>
+				<p style="text-align: center; color:grey; font-size:80%">공지사항입니다. 꼭 읽어주세요!</p>
 				<div class="container">
 					<div class="row">
 						

@@ -134,5 +134,21 @@ public class NoticeDAO {
 		
 		return null;
 	}
+	
+	public int update(int noticeID, String noticeTitle, String noticeContent) {
+		String SQL = "update notice set noticeTitle=?, noticeContent =? where noticeID = ?";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setString(1, noticeTitle);
+			pstmt.setString(2, noticeContent);
+			pstmt.setInt(3, noticeID);
+			return pstmt.executeUpdate(); //성공시 1
+		}catch(Exception e) {
+			
+		}
+		
+		return -1; //db오류
+	}
+	
 		
 }

@@ -89,31 +89,37 @@ li{
             </div>
     </nav>
 
-	<section class="container mt-5 mb-5" style="max-width: 800px;">
-		<div class="jumbotron" style="padding-top: 20px; margin-top: 50px; height:650px;">
+	<section class="container mt-5 mb-5" style="max-width: 1000px;">
+		<div class="jumbotron" style="padding-top: 20px; margin-top: 50px; height:700px;">
 			<div class="container" >
 				<div class="row" style="padding-top:30px; ">
 					
 						<table class="table table-striped" style="text-align: center; border: 1px solid #ddd;">
 							<thead>
 								<tr>
-									<th colspan="2" style="background-color: #eee; text-align:center;">공지사항 글</th>
+									<th colspan="2" style="background-color: #eee; text-align:center;"><h4>공지사항</h4></th>
 								</tr>	
 							</thead>
 							<tbody>
 								<tr>
+									<td style="border: 1px solid #ddd;">제목</td>
 									<td class="noticeTitle" style="text-align:left;">&nbsp; <%=notice.getNoticeTitle() %></td>
 								</tr>
 								<tr>
-									<td class="noticeContent" style="height:350px; text-align:left; border: 1px solid #ddd;">&nbsp; <%= notice.getNoticeContent() %></td>
+									<td style="border: 1px solid #ddd;">작성일</td>
+									<td class="noticeDate" style="text-align:left; font-size: 80%;">&nbsp;<%=notice.getNoticeDate().substring(0,11) %> <%=notice.getNoticeDate().substring(11,13) %>시 <%=notice.getNoticeDate().substring(14,16) %>분</td>
+								</tr>
+								<tr>
+									<td colspan="2" class="noticeContent" style="height:400px; text-align:left; padding:2rem; border: 1px solid #ddd;">&nbsp; <%= notice.getNoticeContent() %></td>
+									
 								</tr>
 							</tbody>	
 						</table>
 
 				</div>
 			</div>
-				<br>
-						<a href="notice.jsp" class="btn btn-success pull-right">목록</a>
+				
+						<a href="notice.jsp" class="btn btn-success pull-left">목록</a>
 								<%
 									if(userID != null && userID.equals(notice.getUserID())){
 								%>
