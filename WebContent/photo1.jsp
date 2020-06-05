@@ -13,7 +13,10 @@
 <link rel="stylesheet" href="css/nav.css">
 <style>
 li{
-margin-left:1.5rem;
+list-style: none;
+}
+.nav-item{
+	margin-left:1.5rem;
 }
 
 </style>
@@ -63,36 +66,110 @@ margin-left:1.5rem;
     </nav>
 
 		<section class="container mt-5 mb-5" style="max-width: 1000px;">
-			<div class="jumbotron" style="padding-top: 20px; margin-top: 50px; height:650px;">
+			<div class="jumbotron" style="padding-top: 20px; margin-top: 50px; height:700px;">
 				<h3 style="text-align: center">Photos of STAR</h3>
+				<p style="text-align: center; color:grey; font-size:80%">직접 찍은 별 사진을 공유해주세요 <br>리사이즈 필수! (1280x1024이하)</p>
 				<div class="container">
 					<div class="row">
-						
+					<table class="table" style="text-align: center; border: 1px solid #ddd">
+					<thead>
+					</thead>
+					<tbody>
+						<tr>
+						<td style="text-align: left;">
 						<br>
-						<table class="table table-striped" style="text-align: center; border: 1px solid #ddd">
-							<thead>
-								<tr>
-									<th style="background-color: #eee; text-align:center;">번호</th>
-									<th style="background-color: #eee; text-align:center; width:65%;">제목</th>
-									<th style="background-color: #eee; text-align:center;">작성자</th>
-									<th style="background-color: #eee; text-align:center;">작성일</th>
-									<th style="background-color: #eee; text-align:center;">조회수</th>
-								</tr>	
-							</thead>
-							<tbody>
-								<tr>
-									<td>1</td>
-									<td>안녕하세요</td>
-									<td>홍길동</td>
-									<td>2020-05-26</td>
-									<td>15</td>
-								</tr>
-								
+						<ul>
+								<a href="#">
+								<img src="assets/img/moon.jpg" width="80%" alt="">
+									<li><br></li>
+									<li>달 사진입니다</li>
+									<li>작성자: 아헨</li>
+									<li>작성일: 2020-06-05</li>	
 							
-							</tbody>
+							
+								</a>
+						</ul>	
+						</td>
+						
+						<td style="text-align: left;">
+						<br>
+						<ul>
+								<a href="#">
+								<img src="assets/img/moon.jpg" width="80%" alt="">
+									<li><br></li>
+									<li>달 사진입니다</li>
+									<li>작성자: 아헨</li>
+									<li>작성일: 2020-06-05</li>	
+							
+							
+								</a>
+						</ul>	
+						</td>
+						<td style="text-align: left;">
+						<br>
+						<ul>
+								<a href="#">
+								<img src="assets/img/moon.jpg" width="80%" alt="">
+									<li><br></li>
+									<li>달 사진입니다</li>
+									<li>작성자: 아헨</li>
+									<li>작성일: 2020-06-05</li>	
+							
+							
+								</a>
+						</ul>	
+						</td>
+						
+						</tr>
+						<tr>
+						<td style="text-align: left;">
+						<br>
+						<ul>
+								<a href="#">
+								<img src="assets/img/moon.jpg" width="80%" alt="">
+									<li><br></li>
+									<li>달 사진입니다</li>
+									<li>작성자: 아헨</li>
+									<li>작성일: 2020-06-05</li>	
+							
+							
+								</a>
+						</ul>	
+						</td>
+						
+						<td style="text-align: left;">
+						<br>
+						<ul>
+								<a href="#">
+								<img src="assets/img/moon.jpg" width="80%" alt="">
+									<li><br></li>
+									<li>달 사진입니다</li>
+									<li>작성자: 아헨</li>
+									<li>작성일: 2020-06-05</li>	
+							
+							
+								</a>
+						</ul>	
+						</td>
+						<td style="text-align: left;">
+						<br>
+						<ul>
+								<a href="#">
+								<img src="assets/img/moon.jpg" width="80%" alt="">
+									<li><br></li>
+									<li>달 사진입니다</li>
+									<li>작성자: 아헨</li>
+									<li>작성일: 2020-06-05</li>	
+							
+							
+								</a>
+						</ul>	
+						</td>
+						
+						</tr>
+						</tbody>
 					</table>
-					
-					<a href="photoWrite1.jsp" class="btn btn-primary pull-right">글쓰기</a>
+					<a href="photo1Write.jsp" class="btn btn-primary pull-right">글쓰기</a>
 				</div>
 			</div>
 		</div>

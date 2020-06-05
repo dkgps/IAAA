@@ -195,6 +195,8 @@ public class ObservationDAO {
 	}
 	
 	
+	
+	/* 서치기능 */
 	public ArrayList<ObservationDTO> getList(String observationDivide, String searchType, String search, int pageNumber){
 		if(observationDivide.equals("전체")) {
 			observationDivide = "";

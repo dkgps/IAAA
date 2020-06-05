@@ -23,7 +23,9 @@
 	.td-title{
 		width:65%;
 	}
+	
 </style>
+
 <link rel="icon" type="image/x-icon" href="assets/img/star.gif" />
 <!-- Font Awesome icons (free version)-->
 <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
@@ -32,6 +34,7 @@
 <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
 <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
 <!-- Core theme CSS (includes Bootstrap)-->
+
 <link href="css/styles2.css" rel="stylesheet" />
 </head>
 <body id="page-top">
@@ -50,7 +53,9 @@
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
             <div class="container">
-                <a class="navbar-brand js-scroll-trigger" href="#page-top"><img src="assets/img/navbar-logo.png" alt="" /></a><button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">Menu<i class="fas fa-bars ml-1"></i></button>
+                <a class="navbar-brand js-scroll-trigger" href="#page-top">
+                <img src="assets/img/navbar-logo.png" alt="" /></a>
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">Menu<i class="fas fa-bars ml-1"></i></button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav text-uppercase ml-auto">
                     	
@@ -66,8 +71,13 @@
 <%
 	}else{
 %>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="notice.jsp">Notice</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact">Contact</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#notice">Notice</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="photo1.jsp">PHOTO 1</a></li>
+                    	<li class="nav-item"><a class="nav-link js-scroll-trigger" href="photo2.jsp">PHOTO 2</a></li>
+                    	<li class="nav-item"><a class="nav-link js-scroll-trigger" href="observation.jsp">Observation</a></li>
+                    	<li class="nav-item"><a class="nav-link js-scroll-trigger" href="scientificResearch.jsp">Research</a></li>
+                    	<li class="nav-item"><a class="nav-link js-scroll-trigger" href="freeBoard.jsp">FreeBoard</a></li>
+                    	<li class="nav-item"><a class="nav-link js-scroll-trigger" href="aboutMe.jsp">About Me</a></li>	
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="logoutAction.jsp">Logout</a></li>
 <%
 	}
@@ -104,7 +114,10 @@
         			<h2 class="section-heading text-uppercase">Notice</h2>
         			<h3 class="section-subheading text-muted">notice from IAAA</h3>
         			<br>
-        			<table class="table table-striped" style="text-align:center; border : 1px solid #ddd">
+        			<div class="text-right" style="width:99%;">
+	        			<a class="btn btn-secondary" href="notice.jsp" style="font-size:80%; margin-bottom:0.5rem;">더보기</a>
+	        		</div>
+        			<table class="table table-striped" style="text-align:center; border : 3px solid #ddd">
         				<tbody>
         					<%
         						NoticeDAO noticeDAO = new NoticeDAO();
@@ -260,7 +273,7 @@
         </section>
         
       
-       
+ <%	if(userID==null){ %>      
         <!-- Contact-->
         <section class="page-section" id="contact">
             <div class="container">
@@ -298,8 +311,18 @@
                 </form>
             </div>
         </section>
+<%
+ }
+%>
+
+<%	if(userID==null){ %>
         <!-- Footer-->
         <footer class="footer py-4">
+<%	}else{ %>
+		<footer class="footer py-4" style="background-color:#212529; color:white">
+<%
+	}
+%>
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-4 text-lg-left">Copyright © IAAA</div>

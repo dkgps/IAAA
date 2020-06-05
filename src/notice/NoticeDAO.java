@@ -150,5 +150,18 @@ public class NoticeDAO {
 		return -1; //db오류
 	}
 	
+	public int delete(int noticeID) {
+		String SQL = "update notice set noticeAvailable=0 where noticeID = ?";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setInt(1, noticeID);
+			return pstmt.executeUpdate(); //성공시 1
+		}catch(Exception e) {
+			
+		}
+		
+		return -1; //db오류
+	}
+	
 		
 }
