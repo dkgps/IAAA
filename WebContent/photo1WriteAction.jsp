@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="research.ResearchDTO" %>
-<%@ page import="research.ResearchDAO" %>
+<%@ page import = "photo1.Photo1DAO" %>
+<%@ page import = "photo1.Photo1DTO" %>
 <%@ page import="java.io.PrintWriter" %>
 <%@ page import="java.io.File" %>
 <%@ page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy" %>
@@ -18,7 +18,7 @@
 </head>
 <body>
 	<%	
-		ResearchDTO research = new ResearchDTO();
+		
 	
 		String userID = null;
 		if(session.getAttribute("userID") != null){
@@ -32,7 +32,7 @@
 			script.println("</script>");	
 		}
 		
-		String directory = application.getRealPath("/starphoto/");
+		String directory = application.getRealPath("/starphoto").replaceAll("\\\\","/");
 		int maxSize = 1024 * 1024 * 100;
 		String encoding ="UTF-8";
 		
@@ -40,29 +40,36 @@
 		= new MultipartRequest(request, directory, maxSize, encoding, new DefaultFileRenamePolicy());
 	
 		
-		String researchTitle = multipartRequest.getParameter("researchTitle");
-		String researchContent = multipartRequest.getParameter("researchContent");
-		if(researchTitle == null || researchContent==null){
+		String photoTitle = multipartRequest.getParameter("photoTitle");
+		String photoContent = multipartRequest.getParameter("photoContent");
+		if(photoTitle == null || photoContent==null){
 			PrintWriter script = response.getWriter();
 			script.println("<script>");
 			script.println("alert('입력이 안 된 사항이 있습니다.')");
-			script.println("location.href='scientificResearchWrite.jsp'");
+			script.println("history.back();");
 			script.println("</script>");
 		}
 		
 		
-		String researchFile = multipartRequest.getOriginalFileName("researchFile");
-		String researchRealFile = multipartRequest.getFilesystemName("researchFile");
+		String photoFile = multipartRequest.getOriginalFileName("photoFile");
+		String realFileName =  multipartRequest.getFilesystemName("photoFile");
 		
-		ResearchDAO researchDAO = new ResearchDAO();
-		int result = researchDAO.write(userID, researchTitle, researchContent, researchFile, researchRealFile);
+		
+		Photo1DAO photo1DAO = new Photo1DAO();
+		int result = photo1DAO.write(photoTitle, photoContent, userID, photoFile, realFileName);
 		if(result == 1){
 				PrintWriter script = response.getWriter();
 				script.println("<script>");
 				script.println("alert('성공적으로 게시물이 작성되었습니다.')");
-				script.println("location.href='scientificResearch.jsp'");
+				script.println("location.href='photo1.jsp'");
 				script.println("</script>");	
 			
+		}else{
+			PrintWriter script = response.getWriter();
+			script.println("<script>");
+			script.println("alert('게시물이 작성에 실패하였습니다.')");
+			script.println("location.href='photo1.jsp'");
+			script.println("</script>");	
 		}
 	%>
 </body>

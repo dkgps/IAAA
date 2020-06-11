@@ -7,7 +7,7 @@ public class Photo1DTO {
 	private String userID;
 	private String photoDate;
 	private String fileName;
-	
+	private String realFileName;
 	
 	public int getPhotoID() {
 		return photoID;
@@ -45,6 +45,15 @@ public class Photo1DTO {
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
+	public String getRealFileName() {
+		return realFileName;
+	}
+	public void setRealFileName(String realFileName) {
+		this.realFileName = realFileName;
+	}
+	
+	
+
 	
 	
 }

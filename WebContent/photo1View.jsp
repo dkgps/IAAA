@@ -1,10 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.io.PrintWriter" %>
 <%@ page import = "photo1.Photo1DAO" %>
 <%@ page import = "photo1.Photo1DTO" %>
-<%@ page import = "java.util.ArrayList" %>
-<%@ page import = "java.io.PrintWriter" %>
-<%@ page import = "java.io.File" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,14 +12,14 @@
 <link rel="stylesheet" href="css/nav.css">
 <style>
 li{
-list-style: none;
-}
-.nav-item{
-	margin-left:1.5rem;
+margin-left:1.5rem;
 }
 
+a:link{
+text-decoration:none;
+}
 </style>
-<title>공지사항</title>
+<title>Photo</title>
 </head>
 <body>
 <%
@@ -30,16 +28,33 @@ list-style: none;
 		userID = (String) session.getAttribute("userID");
 	}
 	
-	int pageNumber = 1;
-	if(request.getParameter("pageNumber")!=null){
-		pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+	if(userID==null){
+		PrintWriter script = response.getWriter();
+		script.println("<script>");
+		script.println("alert('로그인을 해주세요')");
+		script.println("location.href='login.jsp'");
+		script.println("</script>");
+	}
+	
+	int photoID = 0;
+	if(request.getParameter("photoID")!=null){
+		photoID = Integer.parseInt(request.getParameter("photoID"));
+	}
+	if(photoID==0){
+		PrintWriter script = response.getWriter();
+		script.println("<script>");
+		script.println("alert('글을 읽어올 수 없습니다.')");
+		script.println("location.href='photo1.jsp'");
+		script.println("</script>");
 	}
 	
 	Photo1DAO photo1DAO = new Photo1DAO();
-	ArrayList<Photo1DTO> photoList = photo1DAO.getList(pageNumber);
+	Photo1DTO photo1 = photo1DAO.getPhoto(photoID);
+	
+	String root = application.getRealPath("/");
+	String savePath = root + "starphoto";
 	
 	
-
 %>
 	<nav class="navbar navbar-expand-lg navbar-dark" id="mainNav">
             <div class="container">
@@ -70,46 +85,43 @@ list-style: none;
                 </div>
             </div>
     </nav>
-
-		<section class="container mt-5 mb-5" style="max-width: 1000px;">
-			<div class="jumbotron" style="padding-top: 20px; margin-top: 50px; height:700px;">
-				<h3 style="text-align: center">Photos of STAR</h3>
-				<p style="text-align: center; color:grey; font-size:80%">직접 찍은 별 사진을 공유해주세요 <br>리사이즈 필수! (1280x1024이하)</p>
-				<div class="container">
-					<div class="row">
-						<%
-							for(int i=0; i<photoList.size(); i++){
-								Photo1DTO photo1 = photoList.get(i);
-								String Photo = photo1DAO.getPhoto(photo1.getPhotoID());
-							
-						%>
-							<div class="col-md-4">
-								<div class="thumbnail" style="width: 200px; height:230px; ">
-									<a href="photo1View.jsp?photoID=<%=photo1.getPhotoID() %>">
-									<img alt =<%=Photo%> src=<%=Photo%> style="width: 200px; height:130px; overflow:hidden;">
-										
-											<h5><%=photo1.getPhotoTitle() %></h5>
-											<h5>작성자:	 <%=photo1.getUserID() %></h5>
-											<h5>		<%=photo1.getPhotoDate().substring(0,11) + photo1.getPhotoDate().substring(11,13)+"시" +photo1.getPhotoDate().substring(14,16)+"분"  %>
-											</h5>
-										
-									</a>
-								</div>
-							</div>
-								
-									
-						
-						<%
-							}
-						%>
-						
-						<a href="photo1Write.jsp" class="btn btn-primary pull-right">글쓰기</a>
-					</div>	
-						
+	<section class="container mt-5 mb-5" style="max-width: 1000px;">
+		<div class="jumbotron" style="padding-top: 20px; margin-top: 50px; height:700px; ">
+			<div class="container">
+				<div class="row" style="padding-top:30px;">
 					
-				
+						<table class="table table-striped" style="text-align: center; border: 1px solid #ddd">
+							<thead>
+								<tr>
+									<th colspan="5" style="background-color: #eee; text-align:center; border: 1px solid #ddd; ">게시물 보기</th>
+								</tr>	
+							</thead>
+							<tbody>
+								<tr>
+									<td><h5>제목</h5></td>
+									<td colspan="4"><h5><%=photo1.getPhotoTitle() %></h5></td>
+								</tr>
+								<tr>
+									<td><h5>작성자</h5></td>
+									<td colspan="4"><h5><%=photo1.getUserID() %></h5></td>
+								</tr>
+								<tr>
+									<td><h5>작성날짜</h5></td>
+									<td colspan="2"><h6><%=photo1.getPhotoDate() %></h6></td>
+								</tr>
+								<tr>
+									<td colspan="2" style="height: 300px; text-align:left; padding: 2rem;"><%=photo1.getPhotoContent() %></td>
+								</tr>
+								<tr>
+									<td><h5>첨부파일</h5></td>
+									<td colspan="4"><h5><%= photo1.getFileName()%></h5></td>
+								</tr>
+							</tbody>	
+						</table>
+				</div>
 			</div>
-			
+								<a href="photo1.jsp" class="btn btn-success pull-right">목록</a>
+								
 		</div>
 	</section>
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
