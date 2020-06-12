@@ -1,4 +1,4 @@
-package photo1;
+package photo2;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,13 +7,13 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import photo1.Photo1DTO;
-import java.io.File;
-public class Photo1DAO {
 
+public class Photo2DAO {
+	
 	private Connection conn;
 	private ResultSet rs;
 		
-	public Photo1DAO(){
+	public Photo2DAO(){
 		try {
 			String dbURL = "jdbc:mysql://localhost:3306/iaaa";
 			String dbID = "root";
@@ -26,7 +26,7 @@ public class Photo1DAO {
 	}
 	
 	public int getNext() {
-		String SQL = "select photoID from photo1 order by photoID desc";
+		String SQL = "select photoID from photo2 order by photoID desc";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			rs = pstmt.executeQuery();
@@ -43,7 +43,7 @@ public class Photo1DAO {
 	
 	
 	public int write(String photoTitle, String photoContent, String userID, String fileName, String realFileName) {
-		String SQL = "insert into photo1 values (?,?,?,?,now(),?,?)";
+		String SQL = "insert into photo2 values (?,?,?,?,now(),?,?)";
 		try{
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			pstmt.setInt(1, getNext());
@@ -59,24 +59,24 @@ public class Photo1DAO {
 		
 		return -1;
 	}
+	
 	 
-	public ArrayList<Photo1DTO> getList(int pageNumber) {
-		String SQL = "select * from photo1 where photoID<? order by photoID desc";
-		ArrayList<Photo1DTO> list = new ArrayList<Photo1DTO>();
+	public ArrayList<Photo2DTO> getList() {
+		String SQL = "select * from photo2 order by photoID desc";
+		ArrayList<Photo2DTO> list = new ArrayList<Photo2DTO>();
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
-			pstmt.setInt(1, getNext() - (pageNumber -1) * 6);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
-				Photo1DTO photo1 = new Photo1DTO();
-				photo1.setPhotoID(rs.getInt("PhotoID"));
-				photo1.setPhotoTitle(rs.getString("photoTitle"));
-				photo1.setPhotoContent(rs.getString("photoContent"));
-				photo1.setUserID(rs.getString("userID"));
-				photo1.setPhotoDate(rs.getString("photoDate").substring(0,11) + rs.getString("photoDate").substring(11,13)+"시" +rs.getString("photoDate").substring(14,16)+"분" );
-				photo1.setFileName(rs.getString("fileName"));
-				photo1.setRealFileName(rs.getString("realFileName"));
-				list.add(photo1);
+				Photo2DTO photo2 = new Photo2DTO();
+				photo2.setPhotoID(rs.getInt("PhotoID"));
+				photo2.setPhotoTitle(rs.getString("photoTitle"));
+				photo2.setPhotoContent(rs.getString("photoContent"));
+				photo2.setUserID(rs.getString("userID"));
+				photo2.setPhotoDate(rs.getString("photoDate").substring(0,11) + rs.getString("photoDate").substring(11,13)+"시" +rs.getString("photoDate").substring(14,16)+"분" );
+				photo2.setFileName(rs.getString("fileName"));
+				photo2.setRealFileName(rs.getString("realFileName"));
+				list.add(photo2);
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -85,23 +85,23 @@ public class Photo1DAO {
 		return list;		
 	}
 	
-	public Photo1DTO getData(int photoID) {
-		String SQL = "select * from photo1 where photoID = ?";
+	public Photo2DTO getData(int photoID) {
+		String SQL = "select * from photo2 where photoID = ?";
 		
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			pstmt.setInt(1, photoID);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
-				Photo1DTO photo1 = new Photo1DTO();
-				photo1.setPhotoID(rs.getInt("PhotoID"));
-				photo1.setPhotoTitle(rs.getString("photoTitle"));
-				photo1.setPhotoContent(rs.getString("photoContent"));
-				photo1.setUserID(rs.getString("userID"));
-				photo1.setPhotoDate(rs.getString("photoDate").substring(0,11) + rs.getString("photoDate").substring(11,13)+"시" +rs.getString("photoDate").substring(14,16)+"분" );
-				photo1.setFileName(rs.getString("fileName"));
-				photo1.setRealFileName(rs.getString("realFileName"));
-				return photo1;
+				Photo2DTO photo2 = new Photo2DTO();
+				photo2.setPhotoID(rs.getInt("PhotoID"));
+				photo2.setPhotoTitle(rs.getString("photoTitle"));
+				photo2.setPhotoContent(rs.getString("photoContent"));
+				photo2.setUserID(rs.getString("userID"));
+				photo2.setPhotoDate(rs.getString("photoDate").substring(0,11) + rs.getString("photoDate").substring(11,13)+"시" +rs.getString("photoDate").substring(14,16)+"분" );
+				photo2.setFileName(rs.getString("fileName"));
+				photo2.setRealFileName(rs.getString("realFileName"));
+				return photo2;
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -111,27 +111,27 @@ public class Photo1DAO {
 	}
 
 	public String getPhoto(int photoID) {
-		String SQL = "select realFileName from photo1 where photoID = ?";
+		String SQL = "select realFileName from photo2 where photoID = ?";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			pstmt.setInt(1, photoID);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				if(rs.getString("realFileName").equals("")){
-					return "http://localhost:8080/WebPractice/starphoto/noimage.jpg";
+					return "http://localhost:8080/WebPractice/iaaaphoto/noimage.jpg";
 				}
-				return "http://localhost:8080/WebPractice/starphoto/" + rs.getString("realFileName");
+				return "http://localhost:8080/WebPractice/iaaaphoto/" + rs.getString("realFileName");
 				
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
 				
-		return "http://localhost:8080/WebPractice/starphoto/noimage.jpg";	
+		return "http://localhost:8080/WebPractice/iaaaphoto/noimage.jpg";	
 	}
 	
 	public int update(int photoID, String photoTitle, String photoContent,String fileName, String realFileName) {
-		String SQL = "update photo1 set photoTitle =?, photoContent=?, fileName=?, realFileName=? where photoID =?";
+		String SQL = "update photo2 set photoTitle =?, photoContent=?, fileName=?, realFileName=? where photoID =?";
 		try{
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			pstmt.setString(1, photoTitle);
@@ -148,7 +148,7 @@ public class Photo1DAO {
 	}
 	
 	public int delete(int photoID) {
-		String SQL = "delete from photo1 where photoID =?";
+		String SQL = "delete from photo2 where photoID =?";
 		try{
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			pstmt.setInt(1, photoID);
@@ -161,7 +161,7 @@ public class Photo1DAO {
 	}
 	
 	public boolean nextPage(int pageNumber) {
-		String SQL = "select * from photo1 where photoID >= ?";
+		String SQL = "select * from photo2 where photoID >= ?";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			pstmt.setInt(1, pageNumber * 6);
@@ -177,6 +177,5 @@ public class Photo1DAO {
 	}
 	
 	
-	
-	
+	 
 }

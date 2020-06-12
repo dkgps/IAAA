@@ -14,12 +14,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title></title>
+<title>photoUpdateAction</title>
 </head>
 <body>
-	<%	
-		
-	
+<%	
+
 		String userID = null;
 		if(session.getAttribute("userID") != null){
 			userID = (String) session.getAttribute("userID");
@@ -31,7 +30,17 @@
 			script.println("location.href='login.jsp'");
 			script.println("</script>");	
 		}
-		
+		int photoID = 0;
+		if(request.getParameter("photoID")!=null){
+			photoID = Integer.parseInt(request.getParameter("photoID"));
+		}
+		if(photoID==0){
+			PrintWriter script = response.getWriter();
+			script.println("<script>");
+			script.println("alert('유효하지 않은 글입니다.')");
+			script.println("history.back();");
+			script.println("</script>");	
+		}
 		String directory = application.getRealPath("/starphoto").replaceAll("\\\\","/");
 		int maxSize = 1024 * 1024 * 100;
 		String encoding ="UTF-8";
@@ -50,27 +59,41 @@
 			script.println("</script>");
 		}
 		
-		
-		String photoFile = multipartRequest.getOriginalFileName("photoFile");
-		String realFileName =  multipartRequest.getFilesystemName("photoFile");
-		
-		
 		Photo1DAO photo1DAO = new Photo1DAO();
-		int result = photo1DAO.write(photoTitle, photoContent, userID, photoFile, realFileName);
-		if(result == 1){
+		String photoFile = null;
+		String photoRealFile = null;
+		
+		File file = multipartRequest.getFile("photoFile");
+		if(file != null){
+			photoFile = multipartRequest.getOriginalFileName("photoFile");
+			photoRealFile = multipartRequest.getFilesystemName("photoFile");
+			String prev = photo1DAO.getData(photoID).getRealFileName();
+			File prevFile = new File(directory + "/" + prev);
+			if(prevFile.exists()){
+				prevFile.delete();
+			}
+		}else{
+			photoFile = photo1DAO.getData(photoID).getFileName();
+			photoRealFile = photo1DAO.getData(photoID).getRealFileName();
+		}
+		
+		
+		int result = photo1DAO.update(photoID,photoTitle,photoContent,photoFile,photoRealFile);
+			if(result == 1){
 				PrintWriter script = response.getWriter();
 				script.println("<script>");
-				script.println("alert('성공적으로 게시물이 작성되었습니다.')");
-				script.println("location.href='photo1.jsp'");
-				script.println("</script>");	
-			
-		}else{
-			PrintWriter script = response.getWriter();
-			script.println("<script>");
-			script.println("alert('게시물이 작성에 실패하였습니다.')");
-			script.println("location.href='photo1.jsp'");
-			script.println("</script>");	
-		}
-	%>
+				script.println("alert('글이 수정되었습니다.')");
+				script.println("location.href='photo1View.jsp?photoID="+photoID+"'");
+				script.println("</script>");
+			}else if(result == 1){
+				PrintWriter script = response.getWriter();
+				script.println("<script>");
+				script.println("alert('글 수정에 실패했습니다.')");
+				script.println("history.back();");
+				script.println("</script>");
+			}
+		
+		
+%>
 </body>
 </html>

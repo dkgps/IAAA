@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.io.PrintWriter" %>
-<%@ page import = "photo1.Photo1DAO" %>
-<%@ page import = "photo1.Photo1DTO" %>
+<%@ page import = "photo2.Photo2DAO" %>
+<%@ page import = "photo2.Photo2DTO" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -44,14 +44,13 @@ text-decoration:none;
 		PrintWriter script = response.getWriter();
 		script.println("<script>");
 		script.println("alert('글을 읽어올 수 없습니다.')");
-		script.println("location.href='photo1.jsp'");
+		script.println("location.href='photo2.jsp'");
 		script.println("</script>");
 	}
 	
-	Photo1DAO photo1DAO = new Photo1DAO();
-	Photo1DTO photo1 = photo1DAO.getData(photoID);
-	String Photo = photo1DAO.getPhoto(photo1.getPhotoID());
-	
+	Photo2DAO photo2DAO = new Photo2DAO();
+	Photo2DTO photo2 = photo2DAO.getData(photoID);
+	String Photo = photo2DAO.getPhoto(photo2.getPhotoID());
 	
 	
 %>
@@ -70,8 +69,8 @@ text-decoration:none;
 <%
 	}else{
 %>                      
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="photo1.jsp" style="color: #fed136;">PHOTO 1</a></li>
-                    	<li class="nav-item"><a class="nav-link js-scroll-trigger" href="photo2.jsp">PHOTO 2</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="photo1.jsp">PHOTO 1</a></li>
+                    	<li class="nav-item"><a class="nav-link js-scroll-trigger" href="photo2.jsp" style="color: #fed136;">PHOTO 2</a></li>
                     	<li class="nav-item"><a class="nav-link js-scroll-trigger" href="observation.jsp">Observation</a></li>
                     	<li class="nav-item"><a class="nav-link js-scroll-trigger" href="scientificResearch.jsp">Research</a></li>
                     	<li class="nav-item"><a class="nav-link js-scroll-trigger" href="freeBoard.jsp">FreeBoard</a></li>
@@ -98,24 +97,24 @@ text-decoration:none;
 							<tbody>
 								<tr>
 									<td><h5>제목</h5></td>
-									<td colspan="4"><h5><%=photo1.getPhotoTitle() %></h5></td>
+									<td colspan="4"><h5><%=photo2.getPhotoTitle() %></h5></td>
 								</tr>
 								<tr>
 									<td><h5>작성자</h5></td>
-									<td colspan="4"><h5><%=photo1.getUserID() %></h5></td>
+									<td colspan="4"><h5><%=photo2.getUserID() %></h5></td>
 								</tr>
 								<tr>
 									<td><h5>작성날짜</h5></td>
-									<td colspan="2"><h6><%=photo1.getPhotoDate() %></h6></td>
+									<td colspan="2"><h6><%=photo2.getPhotoDate() %></h6></td>
 								</tr>
 								<tr>
-								<% if(Photo.equals("http://localhost:8080/WebPractice/starphoto/noimage.jpg")){ %>
-									<td colspan="2" style="height: 388px; text-align:left; padding: 2rem;"><%=photo1.getPhotoContent() %>
+								<% if(Photo.equals("http://localhost:8080/WebPractice/iaaaphoto/noimage.jpg")){ %>
+									<td colspan="2" style="height: 388px; text-align:left; padding: 2rem;"><%=photo2.getPhotoContent() %>
 									</td>
 								<%}else{ %>
 									<td colspan="2" style="height: auto; text-align:left; padding: 2rem;">
 									<img src=<%= Photo%> style="max-width:90%;"><br><br>
-									<%=photo1.getPhotoContent() %></td>
+									<%=photo2.getPhotoContent() %></td>
 								<%} %>
 								</tr>
 								
@@ -123,18 +122,17 @@ text-decoration:none;
 						</table>
 				</div>
 			</div>
-								<a href="photo1.jsp" class="btn btn-success pull-right">목록</a>
-									
+								
 								<%
-									if(userID != null && userID.equals(photo1DAO.getData(photoID).getUserID())){
+									if(userID != null && userID.equals(photo2DAO.getData(photoID).getUserID())){
 								%>
-									<a href="photo1.jsp" class="btn btn-success pull-left">목록</a>
-									<a href="photo1Update.jsp?photoID=<%= photoID %>" class="btn btn-primary pull-right">수정</a>
-									<a onclick="return confirm('삭제하시겠습니까?')" href="photo1DeleteAction.jsp?photoID=<%=photoID %>" class="btn btn-danger pull-right">삭제</a>
+									<a href="photo2.jsp" class="btn btn-success pull-left">목록</a>
+									<a href="photo2Update.jsp?photoID=<%= photoID %>" class="btn btn-primary pull-right">수정</a>
+									<a onclick="return confirm('삭제하시겠습니까?')" href="photo2DeleteAction.jsp?photoID=<%=photoID %>" class="btn btn-danger pull-right">삭제</a>
 								<%
 									}else{
 								%>	
-								<a href="photo1.jsp" class="btn btn-success pull-right">목록</a>
+								<a href="photo2.jsp" class="btn btn-success pull-right">목록</a>
 								<%
 									}
 								%>

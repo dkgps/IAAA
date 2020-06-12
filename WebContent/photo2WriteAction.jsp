@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import = "photo1.Photo1DAO" %>
-<%@ page import = "photo1.Photo1DTO" %>
+<%@ page import = "photo2.Photo2DAO" %>
+<%@ page import = "photo2.Photo2DTO" %>
 <%@ page import="java.io.PrintWriter" %>
 <%@ page import="java.io.File" %>
 <%@ page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy" %>
@@ -14,7 +14,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title></title>
+<title>WriteAction</title>
 </head>
 <body>
 	<%	
@@ -32,7 +32,7 @@
 			script.println("</script>");	
 		}
 		
-		String directory = application.getRealPath("/starphoto").replaceAll("\\\\","/");
+		String directory = application.getRealPath("/iaaaphoto").replaceAll("\\\\","/");
 		int maxSize = 1024 * 1024 * 100;
 		String encoding ="UTF-8";
 		
@@ -55,20 +55,20 @@
 		String realFileName =  multipartRequest.getFilesystemName("photoFile");
 		
 		
-		Photo1DAO photo1DAO = new Photo1DAO();
-		int result = photo1DAO.write(photoTitle, photoContent, userID, photoFile, realFileName);
+		Photo2DAO photo2DAO = new Photo2DAO();
+		int result = photo2DAO.write(photoTitle, photoContent, userID, photoFile, realFileName);
 		if(result == 1){
 				PrintWriter script = response.getWriter();
 				script.println("<script>");
 				script.println("alert('성공적으로 게시물이 작성되었습니다.')");
-				script.println("location.href='photo1.jsp'");
+				script.println("location.href='photo2.jsp'");
 				script.println("</script>");	
 			
 		}else{
 			PrintWriter script = response.getWriter();
 			script.println("<script>");
 			script.println("alert('게시물이 작성에 실패하였습니다.')");
-			script.println("location.href='photo1.jsp'");
+			script.println("location.href='photo2.jsp'");
 			script.println("</script>");	
 		}
 	%>

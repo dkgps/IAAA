@@ -20,8 +20,9 @@ list-style: none;
 	margin-left:1.5rem;
 }
 
+
 </style>
-<title>공지사항</title>
+<title>갤러리</title>
 </head>
 <body>
 <%
@@ -35,8 +36,6 @@ list-style: none;
 		pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
 	}
 	
-	Photo1DAO photo1DAO = new Photo1DAO();
-	ArrayList<Photo1DTO> photoList = photo1DAO.getList(pageNumber);
 	
 	
 
@@ -78,7 +77,11 @@ list-style: none;
 				<div class="container">
 					<div class="row">
 						<%
+						Photo1DAO photo1DAO = new Photo1DAO();
+						ArrayList<Photo1DTO> photoList = photo1DAO.getList(pageNumber);
+						
 							for(int i=0; i<photoList.size(); i++){
+								if(i==6) break;
 								Photo1DTO photo1 = photoList.get(i);
 								String Photo = photo1DAO.getPhoto(photo1.getPhotoID());
 							
@@ -96,20 +99,28 @@ list-style: none;
 									</a>
 								</div>
 							</div>
-								
-									
-						
+
 						<%
 							}
 						%>
-						
-						<a href="photo1Write.jsp" class="btn btn-primary pull-right">글쓰기</a>
+		
 					</div>	
-						
-					
-				
 			</div>
-			
+			<div class="f" style="padding:1.5rem;">
+						<a href="photo1Write.jsp" class="btn btn-primary pull-right">글쓰기</a>
+						<%
+						if(pageNumber!=1){
+						%>
+						<a href="photo1.jsp?pageNumber=<%=pageNumber -1%>" class="btn btn-success">이전</a>
+						<%
+							}
+						 	if(photo1DAO.nextPage(pageNumber)){
+						%>
+						<a href="photo1.jsp?pageNumber=<%=pageNumber +1%>" class="btn btn-success">다음</a>
+						<%
+						 	}
+						%>
+			</div>	
 		</div>
 	</section>
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>

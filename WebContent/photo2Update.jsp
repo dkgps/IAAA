@@ -1,15 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.io.PrintWriter" %>
 <%@ page import = "photo2.Photo2DAO" %>
 <%@ page import = "photo2.Photo2DTO" %>
-<%@ page import = "java.util.ArrayList" %>
-<%@ page import = "java.io.PrintWriter" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale='1'">
 <link rel="stylesheet" href="css/bootstrap.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="css/nav.css">
 <style>
 li{
@@ -17,24 +17,25 @@ margin-left:1.5rem;
 }
 
 </style>
-<title>IAAA 갤러리</title>
+<title>이미지 갤러리 글 작성</title>
 </head>
-<body>
+<body id="body" style="background-image: url('assets/img/bg-login.jpg');">
 <%
 	String userID = null;
 	if(session.getAttribute("userID")!=null){
 		userID = (String) session.getAttribute("userID");
 	}
 	
-	int pageNumber = 1;
-	if(request.getParameter("pageNumber")!=null){
-		pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+	int photoID = 0;
+	if(request.getParameter("photoID")!=null){
+		photoID = Integer.parseInt(request.getParameter("photoID"));
 	}
 	
-	Photo2DAO photo2DAO = new Photo2DAO();
-	ArrayList<Photo2DTO> photoList = photo2DAO.getList();
+	Photo2DTO photo2 = new Photo2DAO().getData(photoID);
+
 
 %>
+
 	<nav class="navbar navbar-expand-lg navbar-dark" id="mainNav">
             <div class="container">
                 <a class="navbar-brand js-scroll-trigger" href="index.jsp"><img src="assets/img/navbar-logo.png" alt="" /></a>
@@ -64,56 +65,50 @@ margin-left:1.5rem;
                 </div>
             </div>
     </nav>
-
-		<section class="container mt-5 mb-5" style="max-width: 1000px;">
-			<div class="jumbotron" style="padding-top: 20px; margin-top: 50px; height:700px;">
-				<h3 style="text-align: center">Photos of IAAA</h3>
-				<p style="text-align: center; color:grey; font-size:80%">IAAA 부원들의 사진을 공유해주세요 <br>리사이즈 필수! (1280x1024이하)</p>
-				<div class="container">
-					<div class="row">
-						<%
-						
-							for(int i=0; i<photoList.size(); i++){
-								if(i==6) break;
-								Photo2DTO photo2 = photoList.get(i);
-								String Photo = photo2DAO.getPhoto(photo2.getPhotoID());
-							
-						%>
-							<div class="col-md-4">
-								<div class="thumbnail" style="width: 200px; height:230px; ">
-									<a href="photo2View.jsp?photoID=<%=photo2.getPhotoID() %>">
-									<img alt =<%=Photo%> src=<%=Photo%> style="width: 200px; height:130px; overflow:hidden;">
-										
-											<h5><%=photo2.getPhotoTitle() %></h5>
-											<h5>작성자:	 <%=photo2.getUserID() %></h5>
-											<h5>		<%=photo2.getPhotoDate().substring(0,11) + photo2.getPhotoDate().substring(11,13)+"시" +photo2.getPhotoDate().substring(14,16)+"분"  %>
-											</h5>
-										
-									</a>
-								</div>
-							</div>
-
-						<%
-							}
-						%>
-		
-					</div>	
+		<section class="container mt-5 mb-5" style="max-width: 900px;">
+		<div class="jumbotron" style="padding-top: 20px; margin-top: 50px; ">
+			<div class="container">
+				<div class="row" style="padding-top:30px;">
+					<form method="post" action="photo2UpdateAction.jsp?photoID=<%=photoID %>" enctype="multipart/form-data">
+						<table class="table table-striped" style="text-align: center; border: 1px solid #ddd">
+							<thead>
+								<tr>
+									<th colspan="2" style="background-color: #eee; text-align:center;">갤러리 글 수정</th>
+								</tr>	
+							</thead>
+							<tbody>
+								<tr>
+									<td colspan="2"><input type="text" class="form-control" placeholder="글 제목" name="photoTitle" maxlength="50" value=<%=photo2.getPhotoTitle() %>></td>
+								</tr>
+								<tr>
+									<td colspan="2"><textarea class="form-control" placeholder="글 내용" name="photoContent" maxlength="2048" style="height: 300px;"><%=photo2.getPhotoTitle() %></textarea></td>
+								</tr>
+								<tr>
+									<td style="background-color:#eee; border:none;">
+									<input type="hidden" name="userID" value="<%=userID%>">
+									<input type="hidden" name="photoID" value="<%=photo2.getPhotoID()%>">
+									</td>
+								</tr>
+								<tr>
+									<td><h5>이미지 파일 선택</h5></td>
+									<td>
+										<input type="file" name="photoFile" class="file">
+										<div class="input-group col-xs-12" style="padding-top:1rem;">
+											<span class="input-group-addon"><i class="glyphicon glyphicon-picture"></i></span>
+											<input type="text" class="form-control input-lg" disabled placeholder="<%=photo2.getFileName() %>">
+											<span class="input-group-btn">
+												<button class="browse btn btn-primary input-lg" type="button"><i class="glyphicon glyphicon-search"></i>파일 찾기</button>
+											</span>
+										</div>
+											
+									</td>
+								</tr>
+							</tbody>	
+						</table>
+						<input type="submit" class="btn btn-primary pull-right" value="수정">
+					</form>	
+				</div>
 			</div>
-			<div class="f" style="padding:1.5rem;">
-						<a href="photo2Write.jsp" class="btn btn-primary pull-right">글쓰기</a>
-						<%
-						if(pageNumber!=1){
-						%>
-						<a href="photo1.jsp?pageNumber=<%=pageNumber -1%>" class="btn btn-success">이전</a>
-						<%
-							}
-						 	if(photo2DAO.nextPage(pageNumber)){
-						%>
-						<a href="photo1.jsp?pageNumber=<%=pageNumber +1%>" class="btn btn-success">다음</a>
-						<%
-						 	}
-						%>
-			</div>	
 		</div>
 	</section>
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>

@@ -9,52 +9,33 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale='1'">
 <link rel="stylesheet" href="css/bootstrap.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="css/nav.css">
 <style>
 li{
 margin-left:1.5rem;
 }
 
-a:link{
-text-decoration:none;
-}
 </style>
-<title>Photo</title>
+<title>이미지 갤러리 글 작성</title>
 </head>
-<body>
+<body id="body" style="background-image: url('assets/img/bg-login.jpg');">
 <%
 	String userID = null;
 	if(session.getAttribute("userID")!=null){
 		userID = (String) session.getAttribute("userID");
 	}
 	
-	if(userID==null){
-		PrintWriter script = response.getWriter();
-		script.println("<script>");
-		script.println("alert('로그인을 해주세요')");
-		script.println("location.href='login.jsp'");
-		script.println("</script>");
-	}
-	
 	int photoID = 0;
 	if(request.getParameter("photoID")!=null){
 		photoID = Integer.parseInt(request.getParameter("photoID"));
 	}
-	if(photoID==0){
-		PrintWriter script = response.getWriter();
-		script.println("<script>");
-		script.println("alert('글을 읽어올 수 없습니다.')");
-		script.println("location.href='photo1.jsp'");
-		script.println("</script>");
-	}
 	
-	Photo1DAO photo1DAO = new Photo1DAO();
-	Photo1DTO photo1 = photo1DAO.getData(photoID);
-	String Photo = photo1DAO.getPhoto(photo1.getPhotoID());
-	
-	
-	
+	Photo1DTO photo1 = new Photo1DAO().getData(photoID);
+
+
 %>
+
 	<nav class="navbar navbar-expand-lg navbar-dark" id="mainNav">
             <div class="container">
                 <a class="navbar-brand js-scroll-trigger" href="index.jsp"><img src="assets/img/navbar-logo.png" alt="" /></a>
@@ -84,60 +65,50 @@ text-decoration:none;
                 </div>
             </div>
     </nav>
-	<section class="container mt-5 mb-5" style="max-width: 1000px;">
-		<div class="jumbotron" style="padding-top: 20px; margin-top: 50px; height:scroll; ">
+		<section class="container mt-5 mb-5" style="max-width: 900px;">
+		<div class="jumbotron" style="padding-top: 20px; margin-top: 50px; ">
 			<div class="container">
 				<div class="row" style="padding-top:30px;">
-					
+					<form method="post" action="photo1UpdateAction.jsp?photoID=<%=photoID %>" enctype="multipart/form-data">
 						<table class="table table-striped" style="text-align: center; border: 1px solid #ddd">
 							<thead>
 								<tr>
-									<th colspan="5" style="background-color: #eee; text-align:center; border: 1px solid #ddd; ">게시물 보기</th>
+									<th colspan="2" style="background-color: #eee; text-align:center;">갤러리 글 수정</th>
 								</tr>	
 							</thead>
 							<tbody>
 								<tr>
-									<td><h5>제목</h5></td>
-									<td colspan="4"><h5><%=photo1.getPhotoTitle() %></h5></td>
+									<td colspan="2"><input type="text" class="form-control" placeholder="글 제목" name="photoTitle" maxlength="50" value=<%=photo1.getPhotoTitle() %>></td>
 								</tr>
 								<tr>
-									<td><h5>작성자</h5></td>
-									<td colspan="4"><h5><%=photo1.getUserID() %></h5></td>
+									<td colspan="2"><textarea class="form-control" placeholder="글 내용" name="photoContent" maxlength="2048" style="height: 300px;"><%=photo1.getPhotoTitle() %></textarea></td>
 								</tr>
 								<tr>
-									<td><h5>작성날짜</h5></td>
-									<td colspan="2"><h6><%=photo1.getPhotoDate() %></h6></td>
-								</tr>
-								<tr>
-								<% if(Photo.equals("http://localhost:8080/WebPractice/starphoto/noimage.jpg")){ %>
-									<td colspan="2" style="height: 388px; text-align:left; padding: 2rem;"><%=photo1.getPhotoContent() %>
+									<td style="background-color:#eee; border:none;">
+									<input type="hidden" name="userID" value="<%=userID%>">
+									<input type="hidden" name="photoID" value="<%=photo1.getPhotoID()%>">
 									</td>
-								<%}else{ %>
-									<td colspan="2" style="height: auto; text-align:left; padding: 2rem;">
-									<img src=<%= Photo%> style="max-width:90%;"><br><br>
-									<%=photo1.getPhotoContent() %></td>
-								<%} %>
 								</tr>
-								
+								<tr>
+									<td><h5>이미지 파일 선택</h5></td>
+									<td>
+										<input type="file" name="photoFile" class="file">
+										<div class="input-group col-xs-12" style="padding-top:1rem;">
+											<span class="input-group-addon"><i class="glyphicon glyphicon-picture"></i></span>
+											<input type="text" class="form-control input-lg" disabled placeholder="<%=photo1.getFileName() %>">
+											<span class="input-group-btn">
+												<button class="browse btn btn-primary input-lg" type="button"><i class="glyphicon glyphicon-search"></i>파일 찾기</button>
+											</span>
+										</div>
+											
+									</td>
+								</tr>
 							</tbody>	
 						</table>
+						<input type="submit" class="btn btn-primary pull-right" value="수정">
+					</form>	
 				</div>
 			</div>
-								<a href="photo1.jsp" class="btn btn-success pull-right">목록</a>
-									
-								<%
-									if(userID != null && userID.equals(photo1DAO.getData(photoID).getUserID())){
-								%>
-									<a href="photo1.jsp" class="btn btn-success pull-left">목록</a>
-									<a href="photo1Update.jsp?photoID=<%= photoID %>" class="btn btn-primary pull-right">수정</a>
-									<a onclick="return confirm('삭제하시겠습니까?')" href="photo1DeleteAction.jsp?photoID=<%=photoID %>" class="btn btn-danger pull-right">삭제</a>
-								<%
-									}else{
-								%>	
-								<a href="photo1.jsp" class="btn btn-success pull-right">목록</a>
-								<%
-									}
-								%>
 		</div>
 	</section>
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
