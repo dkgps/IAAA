@@ -123,7 +123,7 @@ text-decoration:none;
 						</table>
 				</div>
 			</div>
-								<a href="photo1.jsp" class="btn btn-success pull-right">목록</a>
+								
 									
 								<%
 									if(userID != null && userID.equals(photo1DAO.getData(photoID).getUserID())){

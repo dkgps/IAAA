@@ -9,7 +9,15 @@
 <link rel="stylesheet" href="css/bootstrap.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="css/nav.css">
+<style>
+li{
+margin-left:1.5rem;
+}
 
+a:link{
+text-decoration:none;
+}
+</style>
 <title>학술 연구 자료 업로드</title>
 </head>
 <body>

@@ -120,7 +120,17 @@ text-decoration:none;
 								</tr>
 								<tr>
 									<td><h5>첨부파일</h5></td>
-									<td colspan="4"><h5><a href="scientificResearchDownload.jsp?researchID=<%=research.getResearchID() %>"><%= research.getResearchFile()%></a></h5></td>
+									<%
+									if(research.getResearchFile()==null){
+									%>
+									<td colspan="4"><h5>(없음)</h5></td>
+									<%
+									}else{
+									%>
+									<td colspan="4"><h5><a href="scientificResearchDownload.jsp?researchID=<%=research.getResearchID() %>"><%=research.getResearchFile()%></a></h5></td>
+									<%
+									}
+									%>
 								</tr>
 							</tbody>	
 						</table>

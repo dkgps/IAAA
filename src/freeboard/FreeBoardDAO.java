@@ -77,11 +77,11 @@ public class FreeBoardDAO {
 	}
 	
 	public ArrayList<FreeBoard> getList(int pageNumber){
-		String SQL = "SELECT * from freeboard where freeBoardID <? and freeBoardAvailable = 1 order by freeBoardID desc limit 10";
+		String SQL = "SELECT * from freeboard where freeBoardID <? and freeBoardAvailable = 1 order by freeBoardID desc";
 		ArrayList<FreeBoard> list = new ArrayList<FreeBoard>();
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
-			pstmt.setInt(1, getNext() - (pageNumber -1) * 10);
+			pstmt.setInt(1, getNext() - (pageNumber -1) * 12);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				FreeBoard freeboard = new FreeBoard();
@@ -101,10 +101,10 @@ public class FreeBoardDAO {
 	}
 	
 	public boolean nextPage(int pageNumber) {
-		String SQL = "select * from freeboard where freeBoardID > ? and freeBoardAvailable = 1";
+		String SQL = "select * from freeboard where freeBoardID >=? and freeBoardAvailable = 1";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
-			pstmt.setInt(1, (pageNumber -1) * 10);
+			pstmt.setInt(1, pageNumber * 12);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				return true;

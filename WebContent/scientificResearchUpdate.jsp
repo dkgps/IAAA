@@ -10,7 +10,15 @@
 <meta name="viewport" content="width=device-width, initial-scale='1'">
 <link rel="stylesheet" href="css/bootstrap.css">
 <link rel="stylesheet" href="css/nav.css">
+<style>
+li{
+margin-left:1.5rem;
+}
 
+a:link{
+text-decoration:none;
+}
+</style>
 <title>학술 연구 게시판 수정</title>
 </head>
 <body>

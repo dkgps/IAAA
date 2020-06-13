@@ -61,11 +61,12 @@ public class Photo2DAO {
 	}
 	
 	 
-	public ArrayList<Photo2DTO> getList() {
-		String SQL = "select * from photo2 order by photoID desc";
+	public ArrayList<Photo2DTO> getList(int pageNumber) {
+		String SQL = "select * from photo2 where photoID<? order by photoID desc";
 		ArrayList<Photo2DTO> list = new ArrayList<Photo2DTO>();
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setInt(1, getNext() - (pageNumber -1) * 6);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				Photo2DTO photo2 = new Photo2DTO();
@@ -160,6 +161,7 @@ public class Photo2DAO {
 		return -1;
 	}
 	
+
 	public boolean nextPage(int pageNumber) {
 		String SQL = "select * from photo2 where photoID >= ?";
 		try {

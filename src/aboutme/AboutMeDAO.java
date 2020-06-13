@@ -69,7 +69,7 @@ public class AboutMeDAO {
 		ArrayList<AboutMeDTO> list = new ArrayList<AboutMeDTO>();
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
-			pstmt.setInt(1, getNext() - (pageNumber -1) * 10);
+			pstmt.setInt(1, getNext() - (pageNumber -1) * 12);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				AboutMeDTO aboutMeDTO = new AboutMeDTO();
@@ -88,6 +88,22 @@ public class AboutMeDAO {
 
 	}
 	
+	
+	public boolean nextPage(int pageNumber) {
+		String SQL = "select * from aboutme where aboutMeID >=?";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setInt(1, pageNumber * 12);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				return true;
+			}
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 	
 	public AboutMeDTO getAboutMe(int aboutMeID) {
 		String SQL = "select * from aboutme where aboutMeID = ?";

@@ -42,8 +42,8 @@ margin-left:1.5rem;
 <%
 	}else{
 %>                      
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="photo1.jsp" style="color: #fed136;">PHOTO 1</a></li>
-                    	<li class="nav-item"><a class="nav-link js-scroll-trigger" href="photo2.jsp">PHOTO 2</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="photo1.jsp">PHOTO 1</a></li>
+                    	<li class="nav-item"><a class="nav-link js-scroll-trigger" href="photo2.jsp" style="color: #fed136;">PHOTO 2</a></li>
                     	<li class="nav-item"><a class="nav-link js-scroll-trigger" href="observation.jsp">Observation</a></li>
                     	<li class="nav-item"><a class="nav-link js-scroll-trigger" href="scientificResearch.jsp">Research</a></li>
                     	<li class="nav-item"><a class="nav-link js-scroll-trigger" href="freeBoard.jsp">FreeBoard</a></li>

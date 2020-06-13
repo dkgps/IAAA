@@ -88,6 +88,7 @@ margin-left:1.5rem;
 								AboutMeDAO aboutMeDAO = new AboutMeDAO();
 								ArrayList<AboutMeDTO> list = aboutMeDAO.getList(pageNumber);
 								for(int i=0; i<list.size(); i++){
+									if(i==12) break;
 							%>
 								<tr>
 									<td><%=list.get(i).getAboutMeID() %></td>
@@ -102,7 +103,18 @@ margin-left:1.5rem;
 							
 							</tbody>
 					</table>
-					
+					<%
+						if(pageNumber !=1){
+					%>
+						<a href="aboutMe.jsp?pageNumber=<%=pageNumber -1 %>" class="btn btn-success btn-arraw-left">이전</a>
+					<%
+						} 
+						if(aboutMeDAO.nextPage(pageNumber)){
+					%>	
+						<a href="aboutMe.jsp?pageNumber=<%=pageNumber +1 %>" class="btn btn-success btn-arraw-right">다음</a>
+					<%
+						}
+					%>
 					<a href="aboutMeWrite.jsp" class="btn btn-primary pull-right">글쓰기</a>
 				</div>
 			</div>

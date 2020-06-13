@@ -31,8 +31,6 @@ margin-left:1.5rem;
 		pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
 	}
 	
-	Photo2DAO photo2DAO = new Photo2DAO();
-	ArrayList<Photo2DTO> photoList = photo2DAO.getList();
 
 %>
 	<nav class="navbar navbar-expand-lg navbar-dark" id="mainNav">
@@ -72,6 +70,10 @@ margin-left:1.5rem;
 				<div class="container">
 					<div class="row">
 						<%
+
+						
+						Photo2DAO photo2DAO = new Photo2DAO();
+						ArrayList<Photo2DTO> photoList = photo2DAO.getList(pageNumber);
 						
 							for(int i=0; i<photoList.size(); i++){
 								if(i==6) break;
@@ -104,12 +106,12 @@ margin-left:1.5rem;
 						<%
 						if(pageNumber!=1){
 						%>
-						<a href="photo1.jsp?pageNumber=<%=pageNumber -1%>" class="btn btn-success">이전</a>
+						<a href="photo2.jsp?pageNumber=<%=pageNumber -1%>" class="btn btn-success">이전</a>
 						<%
 							}
 						 	if(photo2DAO.nextPage(pageNumber)){
 						%>
-						<a href="photo1.jsp?pageNumber=<%=pageNumber +1%>" class="btn btn-success">다음</a>
+						<a href="photo2.jsp?pageNumber=<%=pageNumber+1%>" class="btn btn-success">다음</a>
 						<%
 						 	}
 						%>

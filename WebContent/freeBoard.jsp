@@ -85,6 +85,7 @@ li{
 								ArrayList<FreeBoard> list = freeBoardDAO.getList(pageNumber);
 								 
 								for(int i=0; i<list.size(); i++){
+									if(i==12) break;
 							
 							%>
 								<tr>
@@ -105,7 +106,7 @@ li{
 						<a href="freeBoard.jsp?pageNumber=<%=pageNumber -1 %>" class="btn btn-success btn-arraw-left">이전</a>
 					<%
 						} 
-						if(freeBoardDAO.nextPage(pageNumber+1)){
+						if(freeBoardDAO.nextPage(pageNumber)){
 					%>	
 						<a href="freeBoard.jsp?pageNumber=<%=pageNumber +1 %>" class="btn btn-success btn-arraw-right">다음</a>
 					<%
